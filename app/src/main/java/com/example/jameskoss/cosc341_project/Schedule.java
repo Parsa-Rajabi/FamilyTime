@@ -15,7 +15,9 @@ public class Schedule {
         this();
         this.createFromFile(filename);
     }
-
+    public ArrayList<ScheduleEvent> getEvents() {
+        return events;
+    }
     public void createFromFile(String file) {
         String data = "";
         String line;
