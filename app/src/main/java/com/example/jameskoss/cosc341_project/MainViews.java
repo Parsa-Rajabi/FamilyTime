@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 
 public class MainViews extends AppCompatActivity {
 
@@ -14,6 +15,46 @@ public class MainViews extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_views);
+        loadDayButton();
+        loadWeekButton();
+        loadMonthButton();
+
+    }
+
+    private void loadDayButton(){ //goes to day view when pressed
+        Button button = findViewById(R.id.dayButton);
+
+        button.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                changeFragment(v);
+            }
+        });
+
+    }
+
+    private void loadWeekButton(){ //goes to week view when pressed
+        Button button = findViewById(R.id.weekButton);
+
+        button.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                changeFragment(v);
+            }
+        });
+
+    }
+
+    private void loadMonthButton(){ //goes to month view when pressed
+        Button button = findViewById(R.id.monthButton);
+
+        button.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                changeFragment(v);
+            }
+        });
+
     }
 
     public void changeFragment(View v){
