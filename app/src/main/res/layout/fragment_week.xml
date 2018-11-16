@@ -7,6 +7,34 @@
     android:background="?android:windowBackground">
 
     <!-- TODO: Update blank fragment layout -->
+    <ImageButton
+        android:id="@+id/previousweek"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:adjustViewBounds="true"
+        android:background="@drawable/roundedbutton"
+        android:clickable="true"
+        android:scaleType="fitCenter"
+        android:src="@drawable/leftarrow" />
+
+    <ImageButton
+        android:id="@+id/nextweek"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:adjustViewBounds="true"
+        android:background="@drawable/roundedbutton"
+        android:clickable="true"
+        android:scaleType="fitCenter"
+        android:src="@drawable/rightarrow" />
+
     <TextView
         android:id="@+id/Fragment-Day"
         android:layout_width="match_parent"
@@ -17,22 +45,22 @@
         android:layout_marginTop="0dp" />
 
     <TextView
-        android:id="@+id/Month"
+        android:id="@+id/currentDay"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/previousday"
+        android:layout_alignTop="@+id/previousweek"
         android:layout_centerHorizontal="true"
-        android:text="Month"
+        android:text="@string/currentWeek"
         android:textSize="28sp"
         android:textStyle="bold" />
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/Month"
+        android:layout_below="@+id/currentDay"
         android:layout_alignParentStart="true"
         android:layout_marginStart="0dp"
-        android:layout_marginTop="-11dp"
+        android:layout_marginTop="5dp"
         android:layout_marginBottom="3dp"
         android:paddingTop="1dp">
 
