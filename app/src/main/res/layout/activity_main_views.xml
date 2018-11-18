@@ -66,9 +66,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/plus" />
 
-    <fragment
+    <RelativeLayout
         android:id="@+id/FragmentPlacement"
-        android:name="com.example.jameskoss.cosc341_project.DayFragment"
         android:layout_width="394dp"
         android:layout_height="520dp"
         android:layout_marginStart="8dp"

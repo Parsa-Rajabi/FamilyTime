@@ -1,26 +1,21 @@
 package com.example.jameskoss.cosc341_project;
 
-
 import android.graphics.Typeface;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CalendarView;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
 
-public class MainViews extends AppCompatActivity {
+public class MainViews extends FragmentActivity {
     Calendar calendar = Calendar.getInstance();
     SimpleDateFormat dayofweekformat = new SimpleDateFormat("EEEE");
     SimpleDateFormat dayofmonthformat = new SimpleDateFormat("dd");
@@ -40,38 +35,45 @@ public class MainViews extends AppCompatActivity {
     String currentWeekday = switchDayofWeektoString(selectedWeekday); //initial weekday on load;
     String currentYear = Integer.toString(selectedYear); //initial year on load;
     String selectedDate = currentWeekday + ", " + currentMonth + " " + currentDay;
-    String curr = getResources().getString(R.string.currentDay1, selectedDate);
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_views);
+        addDynamicFragment();
         loadDayButton();
         loadWeekButton();
         loadMonthButton();
-       //setDayViewDay();
-        nextDayButton();
-        previousDayButton();
         Button daybutton = findViewById(R.id.dayButton);
         daybutton.setTypeface(daybutton.getTypeface(), Typeface.BOLD);
 
+
     }
 
-    private void nextDayButton() { //goes to day view when pressed
+    public void addDynamicFragment() {
+        Fragment frag = DayFragment.newInstance(((GlobalDateVariables) this.getApplication()).getSelectedDay(), ((GlobalDateVariables) this.getApplication()).getSelectedWeekday(), ((GlobalDateVariables) this.getApplication()).getSelectedMonth(), ((GlobalDateVariables) this.getApplication()).getSelectedYear());
+        getSupportFragmentManager().beginTransaction().add(R.id.FragmentPlacement, frag).commit();
+    }
+
+    /*public void nextDayButton() { //goes to day view when pressed
         ImageButton button = findViewById(R.id.nextday);
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                determineDate(v, selectedMonth);
+
                 changeFragment(v);
+                //DayFragment fragment = (DayFragment) getSupportFragmentManager().findFragmentById(R.id.Fragment_Day);
+
             }
         });
 
-    }
+    }*/
 
-    private void previousDayButton() { //goes to day view when pressed
+/*    private void previousDayButton() { //goes to day view when pressed
         ImageButton button = findViewById(R.id.previousday);
 
         button.setOnClickListener(new View.OnClickListener() {
@@ -81,7 +83,7 @@ public class MainViews extends AppCompatActivity {
             }
         });
 
-    }
+    }*/
 
     private void loadDayButton(){ //goes to day view when pressed
         Button button = findViewById(R.id.dayButton);
@@ -153,6 +155,7 @@ public class MainViews extends AppCompatActivity {
             currentWeekday = switchDayofWeektoString(selectedWeekday); //returns string of weekday
             currentDay = Integer.toString(selectedDay); //string of day eg. "31"
             currentYear = Integer.toString(selectedYear); //string year eg. "2018"
+            selectedDate = currentWeekday + ", " + currentMonth + " " + currentDay;
         }
     }
 
@@ -189,12 +192,11 @@ public class MainViews extends AppCompatActivity {
             currentWeekday = switchDayofWeektoString(selectedWeekday); //returns string of weekday
             currentDay = Integer.toString(selectedDay); //string of day eg. "31"
             currentYear = Integer.toString(selectedYear); //string year eg. "2018"
+            selectedDate = currentWeekday + ", " + currentMonth + " " + currentDay;
         }
     }
 
-
-
-    private void determineDate(View v, int mont) {
+    /*private void determineDate(View v, int mont) {
 
         if (v == findViewById(R.id.nextday)) {
             switch (mont) {
@@ -285,22 +287,15 @@ public class MainViews extends AppCompatActivity {
                     break;
             }
         }
-        TextView cday = findViewById(R.id.currentDay);
-        selectedDate = currentWeekday + ", " + currentMonth + " " + currentDay;
-        cday.setText(selectedDate);
-    }
-
+       // TextView cday = findViewById(R.id.currentDay);
+        //selectedDate = currentWeekday + ", " + currentMonth + " " + currentDay;
+        //cday.setText(selectedDate);
+    }*/
 
     public void changeFragment(View v){
         Fragment frag;
 
-        if(v==findViewById(R.id.nextday)){
-            frag = new DayFragment();
-            FragmentManager fm = getSupportFragmentManager();
-            FragmentTransaction ft = fm.beginTransaction();
-            ft.replace(R.id.FragmentPlacement, frag);
-            ft.commit();
-        }
+
         if(v==findViewById(R.id.dayButton)){
             frag = new DayFragment();
             FragmentManager fm = getSupportFragmentManager();
@@ -343,7 +338,6 @@ public class MainViews extends AppCompatActivity {
             ft.commit();
         }
     }
-
 
     public int switchDayOfWeek(String d){
         switch (d) {
@@ -394,6 +388,7 @@ public class MainViews extends AppCompatActivity {
         }
         return null;
     }
+
     public String switchDayofWeektoString(int d){
         switch (d) {
             case 1:
@@ -413,36 +408,17 @@ public class MainViews extends AppCompatActivity {
         }
         return null;
     }
-/*    public String switchPrevDayofWeek(String d){
-        switch (d) {
-            case "Sunday":
-                return "Sat";
-            case "Mon":
-                return "Sun";
-            case "Tue":
-                return "Mon";
-            case "Wed":
-                return "Tue";
-            case "Thur":
-                return "Wed";
-            case "Fri":
-                return "Thur";
-            case "Sat":
-                return "Fri";
-        }
-        return null;
-    }*/
-
-   /* public void setDayViewDay(){
-
 
         //int weekday = calendar.get(Calendar.DAY_OF_WEEK);
-        /*TextView cday = findViewById(R.id.currentDay);
-        selectedDate = currentWeekday + ", " + currentMonth + " " + currentDay;
-        cday.setText(selectedDate);
-        //int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+    //int day = calendar.get(Calendar.DAY_OF_MONTH);
         //int monthint = calendar.get(Calendar.MONTH);
         //String month;
 
-    }*/
+    public void setDayViewDay() {
+        TextView cday = findViewById(R.id.currentDay);
+        selectedDate = currentWeekday + ", " + currentMonth + " " + currentDay;
+        cday.setText(selectedDate);
+    }
 }
+

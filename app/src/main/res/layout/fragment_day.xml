@@ -19,12 +19,12 @@
         android:layout_marginTop="0dp" />
 
     <TextView
-        android:id="@+id/currentDay1"
+        android:id="@+id/currentDay"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/previousday"
         android:layout_centerHorizontal="true"
-        android:text="@string/currentDay1"
+        android:text="currentday"
         android:textSize="28sp"
         android:textStyle="bold" />
 
