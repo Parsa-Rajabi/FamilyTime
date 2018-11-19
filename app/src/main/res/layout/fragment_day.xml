@@ -24,7 +24,7 @@
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/previousday"
         android:layout_centerHorizontal="true"
-        android:text="currentday"
+        android:text=""
         android:textSize="28sp"
         android:textStyle="bold" />
 

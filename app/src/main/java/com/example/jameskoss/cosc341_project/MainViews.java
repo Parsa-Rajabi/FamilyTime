@@ -16,7 +16,7 @@ import java.util.Date;
 
 
 public class MainViews extends FragmentActivity {
-    Calendar calendar = Calendar.getInstance();
+/*    Calendar calendar = Calendar.getInstance();
     SimpleDateFormat dayofweekformat = new SimpleDateFormat("EEEE");
     SimpleDateFormat dayofmonthformat = new SimpleDateFormat("dd");
     SimpleDateFormat monthformat = new SimpleDateFormat("MM");
@@ -34,7 +34,7 @@ public class MainViews extends FragmentActivity {
     String currentDay = Integer.toString(selectedDay); //initial day on load;
     String currentWeekday = switchDayofWeektoString(selectedWeekday); //initial weekday on load;
     String currentYear = Integer.toString(selectedYear); //initial year on load;
-    String selectedDate = currentWeekday + ", " + currentMonth + " " + currentDay;
+    String selectedDate = currentWeekday + ", " + currentMonth + " " + currentDay;*/
 
 
     @Override
@@ -56,6 +56,95 @@ public class MainViews extends FragmentActivity {
     public void addDynamicFragment() {
         Fragment frag = DayFragment.newInstance(((GlobalDateVariables) this.getApplication()).getSelectedDay(), ((GlobalDateVariables) this.getApplication()).getSelectedWeekday(), ((GlobalDateVariables) this.getApplication()).getSelectedMonth(), ((GlobalDateVariables) this.getApplication()).getSelectedYear());
         getSupportFragmentManager().beginTransaction().add(R.id.FragmentPlacement, frag).commit();
+    }
+
+    private void loadDayButton() { //goes to day view when pressed
+        Button button = findViewById(R.id.dayButton);
+
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                changeFragment(v);
+            }
+        });
+
+    }
+
+    private void loadWeekButton() { //goes to week view when pressed
+        Button button = findViewById(R.id.weekButton);
+        ((GlobalDateVariables) this.getApplication()).switchNextMonthInt(((GlobalDateVariables) this.getApplication()).getSelectedMonth());
+        ((GlobalDateVariables) this.getApplication()).switchPrevMonthInt(((GlobalDateVariables) this.getApplication()).getSelectedMonth());
+        ((GlobalDateVariables) this.getApplication()).switchDaysInMonth(((GlobalDateVariables) this.getApplication()).getSelectedMonth());
+        ((GlobalDateVariables) this.getApplication()).switchDaysInPrevMonth(((GlobalDateVariables) this.getApplication()).getSelectedMonth());
+        ((GlobalDateVariables) this.getApplication()).switchSunday(((GlobalDateVariables) this.getApplication()).getSelectedWeekday());
+        ((GlobalDateVariables) this.getApplication()).switchSaturday(((GlobalDateVariables) this.getApplication()).getSelectedWeekday());
+        ((GlobalDateVariables) this.getApplication()).determineWeek();
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                changeFragment(v);
+            }
+        });
+
+    }
+
+    private void loadMonthButton() { //goes to month view when pressed
+        Button button = findViewById(R.id.monthButton);
+
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                changeFragment(v);
+            }
+        });
+
+    }
+
+    public void changeFragment(View v) {
+        Fragment frag;
+
+
+        if (v == findViewById(R.id.dayButton)) {
+            frag = new DayFragment();
+            FragmentManager fm = getSupportFragmentManager();
+            FragmentTransaction ft = fm.beginTransaction();
+            ft.replace(R.id.FragmentPlacement, frag);
+            Button daybutton = findViewById(R.id.dayButton);
+            daybutton.setTypeface(daybutton.getTypeface(), Typeface.BOLD);
+            Button weekbutton = findViewById(R.id.weekButton);
+            weekbutton.setTypeface(null, Typeface.NORMAL);
+            Button monthbutton = findViewById(R.id.monthButton);
+            monthbutton.setTypeface(null, Typeface.NORMAL);
+            ft.commit();
+        }
+
+        if (v == findViewById(R.id.weekButton)) {
+            frag = new WeekFragment();
+            FragmentManager fm = getSupportFragmentManager();
+            FragmentTransaction ft = fm.beginTransaction();
+            ft.replace(R.id.FragmentPlacement, frag);
+            Button daybutton = findViewById(R.id.dayButton);
+            daybutton.setTypeface(null, Typeface.NORMAL);
+            Button weekbutton = findViewById(R.id.weekButton);
+            weekbutton.setTypeface(weekbutton.getTypeface(), Typeface.BOLD);
+            Button monthbutton = findViewById(R.id.monthButton);
+            monthbutton.setTypeface(null, Typeface.NORMAL);
+            ft.commit();
+        }
+
+        if (v == findViewById(R.id.monthButton)) {
+            frag = new MonthFragment();
+            FragmentManager fm = getSupportFragmentManager();
+            FragmentTransaction ft = fm.beginTransaction();
+            ft.replace(R.id.FragmentPlacement, frag);
+            Button daybutton = findViewById(R.id.dayButton);
+            daybutton.setTypeface(null, Typeface.NORMAL);
+            Button weekbutton = findViewById(R.id.weekButton);
+            weekbutton.setTypeface(null, Typeface.NORMAL);
+            Button monthbutton = findViewById(R.id.monthButton);
+            monthbutton.setTypeface(monthbutton.getTypeface(), Typeface.BOLD);
+            ft.commit();
+        }
     }
 
     /*public void nextDayButton() { //goes to day view when pressed
@@ -85,43 +174,9 @@ public class MainViews extends FragmentActivity {
 
     }*/
 
-    private void loadDayButton(){ //goes to day view when pressed
-        Button button = findViewById(R.id.dayButton);
 
-        button.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v){
-                changeFragment(v);
-            }
-        });
 
-    }
-
-    private void loadWeekButton(){ //goes to week view when pressed
-        Button button = findViewById(R.id.weekButton);
-
-        button.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v){
-                changeFragment(v);
-            }
-        });
-
-    }
-
-    private void loadMonthButton(){ //goes to month view when pressed
-        Button button = findViewById(R.id.monthButton);
-
-        button.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v){
-                changeFragment(v);
-            }
-        });
-
-    }
-
-    public void setNextVariables(int month, int daysinnextmonth, int dayofweek ){
+    /*public void setNextVariables(int month, int daysinnextmonth, int dayofweek ){
         if (selectedDay == daysinnextmonth) { //last day of month
 
             selectedDay = 1; //set day to 1
@@ -292,54 +347,9 @@ public class MainViews extends FragmentActivity {
         //cday.setText(selectedDate);
     }*/
 
-    public void changeFragment(View v){
-        Fragment frag;
 
 
-        if(v==findViewById(R.id.dayButton)){
-            frag = new DayFragment();
-            FragmentManager fm = getSupportFragmentManager();
-            FragmentTransaction ft = fm.beginTransaction();
-            ft.replace(R.id.FragmentPlacement, frag);
-            Button daybutton = findViewById(R.id.dayButton);
-            daybutton.setTypeface(daybutton.getTypeface(), Typeface.BOLD);
-            Button weekbutton = findViewById(R.id.weekButton);
-            weekbutton.setTypeface(null, Typeface.NORMAL);
-            Button monthbutton = findViewById(R.id.monthButton);
-            monthbutton.setTypeface(null, Typeface.NORMAL);
-            ft.commit();
-        }
-
-        if(v==findViewById(R.id.weekButton)){
-            frag = new WeekFragment();
-            FragmentManager fm = getSupportFragmentManager();
-            FragmentTransaction ft = fm.beginTransaction();
-            ft.replace(R.id.FragmentPlacement, frag);
-            Button daybutton = findViewById(R.id.dayButton);
-            daybutton.setTypeface(null, Typeface.NORMAL);
-            Button weekbutton = findViewById(R.id.weekButton);
-            weekbutton.setTypeface(weekbutton.getTypeface(), Typeface.BOLD);
-            Button monthbutton = findViewById(R.id.monthButton);
-            monthbutton.setTypeface(null, Typeface.NORMAL);
-            ft.commit();
-        }
-
-        if(v==findViewById(R.id.monthButton)){
-            frag = new MonthFragment();
-            FragmentManager fm = getSupportFragmentManager();
-            FragmentTransaction ft = fm.beginTransaction();
-            ft.replace(R.id.FragmentPlacement, frag);
-            Button daybutton = findViewById(R.id.dayButton);
-            daybutton.setTypeface(null, Typeface.NORMAL);
-            Button weekbutton = findViewById(R.id.weekButton);
-            weekbutton.setTypeface(null, Typeface.NORMAL);
-            Button monthbutton = findViewById(R.id.monthButton);
-            monthbutton.setTypeface(monthbutton.getTypeface(), Typeface.BOLD);
-            ft.commit();
-        }
-    }
-
-    public int switchDayOfWeek(String d){
+   /* public int switchDayOfWeek(String d){
         switch (d) {
             case "Sunday":
                 return 1;
@@ -415,10 +425,11 @@ public class MainViews extends FragmentActivity {
         //int monthint = calendar.get(Calendar.MONTH);
         //String month;
 
-    public void setDayViewDay() {
+    /*public void setDayViewDay() {
         TextView cday = findViewById(R.id.currentDay);
         selectedDate = currentWeekday + ", " + currentMonth + " " + currentDay;
         cday.setText(selectedDate);
-    }
+
+    }*/
 }
 
