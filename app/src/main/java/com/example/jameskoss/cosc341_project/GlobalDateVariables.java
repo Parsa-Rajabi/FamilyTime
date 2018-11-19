@@ -1,7 +1,6 @@
 package com.example.jameskoss.cosc341_project;
 
 import android.app.Application;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -22,7 +21,7 @@ public class GlobalDateVariables extends Application {
     int selectedDay = dayOfMonth;
     int selectedWeekday = switchDayOfWeek(dayOfWeek);
     int selectedYear = year;
-    String currentMonth = switchMonthToString(selectedMonth); //initial month on load;
+    String currentMonth = switchShortMonthToString(selectedMonth); //initial month on load;
     String currentDay = Integer.toString(selectedDay); //initial day on load;
     String currentWeekday = switchDayofWeektoString(selectedWeekday); //initial weekday on load;
     String currentYear = Integer.toString(selectedYear); //initial year on load;
@@ -76,32 +75,45 @@ public class GlobalDateVariables extends Application {
         switch (monthInt) {
             case 1:
                 this.daysInPrevMonth = 31;
+                break;
             case 2:
                 this.daysInPrevMonth = 31;
+                break;
             case 3:
                 if (selectedYear / 4 == 0 || (selectedYear / 100 == 0 && selectedYear / 400 == 0)) {
                     this.daysInPrevMonth = 29;
+                    break;
                 } else {
                     this.daysInPrevMonth = 28;
+                    break;
                 }
             case 4:
                 this.daysInPrevMonth = 31;
+                break;
             case 5:
                 this.daysInPrevMonth = 30;
+                break;
             case 6:
                 this.daysInPrevMonth = 31;
+                break;
             case 7:
                 this.daysInPrevMonth = 30;
+                break;
             case 8:
                 this.daysInPrevMonth = 31;
+                break;
             case 9:
                 this.daysInPrevMonth = 31;
+                break;
             case 10:
                 this.daysInPrevMonth = 30;
+                break;
             case 11:
                 this.daysInPrevMonth = 31;
+                break;
             case 12:
                 this.daysInPrevMonth = 30;
+                break;
         }
     }
 
@@ -117,32 +129,45 @@ public class GlobalDateVariables extends Application {
         switch (monthInt) {
             case 1:
                 this.daysInMonth = 31;
+                break;
             case 2:
                 if (selectedYear / 4 == 0 || (selectedYear / 100 == 0 && selectedYear / 400 == 0)) {
                     this.daysInMonth = 29;
+                    break;
                 } else {
                     this.daysInMonth = 28;
+                    break;
                 }
             case 3:
                 this.daysInMonth = 31;
+                break;
             case 4:
                 this.daysInMonth = 30;
+                break;
             case 5:
                 this.daysInMonth = 31;
+                break;
             case 6:
                 this.daysInMonth = 30;
+                break;
             case 7:
                 this.daysInMonth = 31;
+                break;
             case 8:
                 this.daysInMonth = 31;
+                break;
             case 9:
                 this.daysInMonth = 30;
+                break;
             case 10:
                 this.daysInMonth = 31;
+                break;
             case 11:
                 this.daysInMonth = 30;
+                break;
             case 12:
                 this.daysInMonth = 31;
+                break;
         }
     }
 
@@ -158,18 +183,25 @@ public class GlobalDateVariables extends Application {
         switch (selectedWeekday) {
             case 1:
                 this.sunday = selectedDay;
+                break;
             case 2:
                 this.sunday = selectedDay - 1;
+                break;
             case 3:
                 this.sunday = selectedDay - 2;
+                break;
             case 4:
                 this.sunday = selectedDay - 3;
+                break;
             case 5:
                 this.sunday = selectedDay - 4;
+                break;
             case 6:
                 this.sunday = selectedDay - 5;
+                break;
             case 7:
                 this.sunday = selectedDay - 6;
+                break;
         }
     }
 
@@ -185,18 +217,25 @@ public class GlobalDateVariables extends Application {
         switch (selectedWeekday) {
             case 1:
                 this.saturday = selectedDay + 6;
+                break;
             case 2:
                 this.saturday = selectedDay + 5;
+                break;
             case 3:
                 this.saturday = selectedDay + 4;
+                break;
             case 4:
                 this.saturday = selectedDay + 3;
+                break;
             case 5:
                 this.saturday = selectedDay + 2;
+                break;
             case 6:
                 this.saturday = selectedDay + 1;
+                break;
             case 7:
                 this.saturday = selectedDay;
+                break;
         }
     }
 
@@ -398,23 +437,23 @@ public class GlobalDateVariables extends Application {
 
         Calendar c = Calendar.getInstance();
         c.setTime(currentDate);
-/*
-        int nextSundayDay = c.get(Calendar.DATE);
-        int nextSundayMonth = c.get(Calendar.MONTH);
-        int nextSundayYear = c.get(Calendar.YEAR);
 
-        c.set(nextSundayYear, nextSundayMonth, nextSundayDay);
+        int SundayDay = c.get(Calendar.DATE);
+        int SundayMonth = c.get(Calendar.MONTH) + 1;
+        int SundayYear = c.get(Calendar.YEAR);
 
-        Date nextSundayDate = c.getTime();
-
-        c.setTime(currentDate);*/
+        c.add(Calendar.DAY_OF_MONTH, 6);
 
         int nextSaturdayDay = c.get(Calendar.DATE);
-        int nextSaturdayMonth = c.get(Calendar.MONTH);
+        this.saturday = nextSaturdayDay;
+        int nextSaturdayMonth = c.get(Calendar.MONTH) + 1;
         int nextSaturdayYear = c.get(Calendar.YEAR);
+        this.selectedMonth = SundayMonth;
+        this.selectedDay = SundayDay;
+        this.sunday = SundayDay;
+        this.selectedYear = SundayYear;
+        this.selectedWeekday = 1;
 
-        c.set(nextSaturdayYear, nextSaturdayMonth, nextSaturdayDay);
-        c.add(Calendar.DAY_OF_MONTH, 6);
 
         Date nextSaturdayDate = c.getTime();
 
@@ -424,48 +463,6 @@ public class GlobalDateVariables extends Application {
         String label = currentSundayStr + " - " + nextSaturdayStr;
 
         this.currentWeek = label;
-
-    }
-
-    public void determineInitialWeek() {
-        String sat;
-        String sun;
-        String month1;
-        String month2;
-        if (saturday > daysInMonth) {
-            if (selectedMonth == 12) {
-                nextMonthInt = 1;
-                month2 = switchShortMonthToString(nextMonthInt);
-                saturday = saturday - daysInMonth;
-                year++;
-            } else {
-                nextMonthInt = selectedMonth + 1;
-                saturday = saturday - daysInMonth;
-                month2 = switchShortMonthToString(nextMonthInt);
-            }
-            sat = month2 + " " + saturday;
-        } else {
-            sat = "" + saturday;
-        }
-        if (sunday < 1) {
-            if (selectedMonth == 1) {
-                prevMonthInt = 12;
-                sunday = sunday + daysInPrevMonth;
-                month1 = switchShortMonthToString(prevMonthInt);
-                year--;
-            } else {
-                prevMonthInt = selectedMonth - 1;
-                sunday = sunday + daysInPrevMonth;
-                month1 = switchShortMonthToString(prevMonthInt);
-            }
-            sun = month1 + " " + sunday;
-            sat = switchShortMonthToString(selectedMonth) + " " + saturday;
-
-        } else {
-            month1 = switchShortMonthToString(selectedMonth);
-            sun = month1 + " " + sunday;
-        }
-        this.currentWeek = sun + "-" + sat;
     }
 
 

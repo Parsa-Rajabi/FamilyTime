@@ -1,7 +1,6 @@
 package com.example.jameskoss.cosc341_project;
 
-import android.content.Context;
-import android.net.Uri;
+
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -98,12 +97,14 @@ public class WeekFragment extends Fragment implements View.OnClickListener {
         this.saturday = ((GlobalDateVariables) this.getActivity().getApplication()).getSaturday();
         this.currentWeek = ((GlobalDateVariables) this.getActivity().getApplication()).getCurrentWeek();
 
-        ImageButton nextButton = v.findViewById(R.id.nextweek);
-        ImageButton prevButton = v.findViewById(R.id.previousweek);
+        setDaysOfWeekView(v);
+
+        ImageButton nextWeekButton = v.findViewById(R.id.nextweek);
+        ImageButton prevWeekButton = v.findViewById(R.id.previousweek);
         weekViewWeekText = v.findViewById(R.id.currentWeek);
 
-        nextButton.setOnClickListener(this);
-        prevButton.setOnClickListener(this);
+        nextWeekButton.setOnClickListener(this);
+        prevWeekButton.setOnClickListener(this);
         readBundle(getArguments());
         weekViewWeekText.setText(currentWeek);
 
@@ -117,12 +118,12 @@ public class WeekFragment extends Fragment implements View.OnClickListener {
         Fragment frag = null;
         switch (v.getId()) {
             case R.id.nextweek:
-                nextWeekDate(selectedMonth, sunday, selectedYear);
+                determineNextWeek();
                 frag = new WeekJumpFragment();
                 replaceFragment(frag, v.getId());
                 break;
             case R.id.previousweek:
-                prevWeekDate(selectedMonth, sunday, selectedYear);
+                determinePrevWeek();
                 frag = new WeekJumpFragment();
                 replaceFragment(frag, v.getId());
                 break;
@@ -149,6 +150,19 @@ public class WeekFragment extends Fragment implements View.OnClickListener {
     }
 
     public void setCurrent() {
+
+/*        Log.w("testyear", "" + this.selectedYear);
+        Log.w("testweekday", "" + this.selectedWeekday);
+        Log.w("testday", "" + this.selectedDay);
+        Log.w("testmonth", "" + this.selectedMonth);
+        Log.w("testsunday", "" + this.sunday);
+        Log.w("testnextMonthInt", "" + this.nextMonthInt);
+        Log.w("testprevMonthInt", "" + this.prevMonthInt);
+        Log.w("testdaysinMonth", "" + this.daysInMonth);
+        Log.w("testdaysinprevmonth", "" + this.daysInPrevMonth);
+        Log.w("testsaturday", "" + this.saturday);
+        Log.w("testcurrentWeek", "" + this.currentWeek);*/
+
         ((GlobalDateVariables) this.getActivity().getApplication()).setSelectedMonth(selectedYear);
         ((GlobalDateVariables) this.getActivity().getApplication()).setSelectedDay(selectedWeekday);
         ((GlobalDateVariables) this.getActivity().getApplication()).setSelectedMonth(selectedMonth);
@@ -160,72 +174,30 @@ public class WeekFragment extends Fragment implements View.OnClickListener {
         ((GlobalDateVariables) this.getActivity().getApplication()).setSunday(sunday);
         ((GlobalDateVariables) this.getActivity().getApplication()).setSaturday(saturday);
         ((GlobalDateVariables) this.getActivity().getApplication()).setCurrentWeek(currentWeek);
+        String currentMonth = switchShortMonthToString(selectedMonth); //string month
+        String currentWeekday = switchDayofWeektoString(selectedWeekday); //returns string of weekday
+        String currentDay = Integer.toString(selectedDay); //string of day eg. "1"
+        String currentYear = Integer.toString(selectedYear); //string year eg. "2018"
+        String selectedDate = currentWeekday + ", " + currentMonth + " " + currentDay;
+        ((GlobalDateVariables) this.getActivity().getApplication()).setCurrentMonth(currentMonth);
+        ((GlobalDateVariables) this.getActivity().getApplication()).setCurrentWeekday(currentWeekday);
+        ((GlobalDateVariables) this.getActivity().getApplication()).setCurrentDay(currentDay);
+        ((GlobalDateVariables) this.getActivity().getApplication()).setCurrentYear(currentYear);
+        ((GlobalDateVariables) this.getActivity().getApplication()).setSelectedDate(selectedDate);
+        Log.w("thisIsRun", "" + selectedDate);
     }
 
- /*   public void determineNextWeek() {
+    public void determineNextWeek() {
 
-        sunday = selectedDay;
-
-        if (selectedDay > daysInMonth) {
-
-            if (selectedMonth == 12) {
-                selectedMonth = 1;
-                selectedYear += 1;
-            } else {
-                selectedMonth += 1;
-            }
-            selectedDay -= daysInMonth;
-            saturday -= daysInMonth;
-        }
-        setNewVariables();
-
-        setCurrent();
-    }*/
-
-
-
-    /*public void determinePrevWeek() {
-
-        selectedDay -= 7;
-
-        saturday -=7;
-        sunday -=7;
-
-        if (selectedDay < 1) {
-            if (selectedMonth == 1) {
-                selectedMonth = 12;
-                selectedYear -= 1;
-            } else {
-                selectedMonth -= 1;
-            }
-            selectedDay += daysInPrevMonth;
-            sunday += daysInPrevMonth;
-        }
-        setNewVariables();
-
-        setCurrent();
-    }*/
-
-    public void nextWeekDate(int month, int sun, int year) {
         SimpleDateFormat sdf = new SimpleDateFormat("MMM dd");
         SimpleDateFormat sdf2 = new SimpleDateFormat("MM-dd-yyyy");
 
-  /*      if (sun< 1) {
-            if (month == 1) {
-                month = 12;
-                year -= 1;
-            } else {
-                month -= 1;
-            }
-            sun += daysInPrevMonth;
-            daysInMonth = daysInPrevMonth;
-            switchDaysInPrevMonth(month);
-        }*/
-
-        String strDate = month + "-" + sun + "-" + year;
+        String strDate = this.selectedMonth + "-" + this.sunday + "-" + this.selectedYear;
         Date currentDate = null;
+
         try {
             currentDate = sdf2.parse(strDate);
+
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -233,54 +205,97 @@ public class WeekFragment extends Fragment implements View.OnClickListener {
         Calendar c = Calendar.getInstance();
         c.setTime(currentDate);
 
-        int sunDay = c.get(Calendar.DATE);
-        int sunMonth = c.get(Calendar.MONTH);
-        int sunYear = c.get(Calendar.YEAR);
-
-        c.set(sunYear, sunMonth, sunDay);
-
         c.add(Calendar.DAY_OF_MONTH, 7);
-
-        selectedDay = c.get(Calendar.DAY_OF_MONTH);
-        selectedMonth = c.get(Calendar.MONTH) + 1;
-        selectedYear = c.get(Calendar.YEAR);
-
+        int nextSundayDay = c.get(Calendar.DATE);
+        int nextSundayMonth = c.get(Calendar.MONTH) + 1;
+        int nextSundayYear = c.get(Calendar.YEAR);
+        this.selectedMonth = nextSundayMonth;
+        this.selectedDay = nextSundayDay;
+        this.sunday = nextSundayDay;
+        this.selectedYear = nextSundayYear;
+        this.selectedWeekday = 1;
         Date nextSundayDate = c.getTime();
 
-        c.setTime(nextSundayDate);
-
         c.add(Calendar.DAY_OF_MONTH, 6);
+
+        int nextSaturdayDay = c.get(Calendar.DATE);
+        this.saturday = nextSaturdayDay;
+        int nextSaturdayMonth = c.get(Calendar.MONTH) + 1;
+        int nextSaturdayYear = c.get(Calendar.YEAR);
 
         Date nextSaturdayDate = c.getTime();
 
         String nextSaturdayStr = sdf.format(nextSaturdayDate);
-        String nextSundayStr = sdf.format(nextSundayDate);
+        String currentSundayStr = sdf.format(nextSundayDate);
 
-        String label = nextSundayStr + " - " + nextSaturdayStr;
+        String label = currentSundayStr + " - " + nextSaturdayStr;
 
-        currentWeek = label;
+        this.currentWeek = label;
+
         setCurrent();
-        Log.w("testnext", "" + ((GlobalDateVariables) this.getActivity().getApplication()).getSelectedDay());
-
     }
 
-    public void prevWeekDate(int month, int sun, int year) {
+    public void setDaysOfWeekView(View v) {
+
+        SimpleDateFormat sdf = new SimpleDateFormat("EEE dd");
+        SimpleDateFormat sdf2 = new SimpleDateFormat("MM-dd-yyyy");
+
+        TextView sun = v.findViewById(R.id.sun);
+        TextView mon = v.findViewById(R.id.mon);
+        TextView tue = v.findViewById(R.id.tue);
+        TextView wed = v.findViewById(R.id.wed);
+        TextView thu = v.findViewById(R.id.thu);
+        TextView fri = v.findViewById(R.id.fri);
+        TextView sat = v.findViewById(R.id.sat);
+
+        String weekDate = this.selectedMonth + "-" + this.sunday + "-" + this.selectedYear;
+
+        Date currentDate = null;
+        try {
+            currentDate = sdf2.parse(weekDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
 
 
+        Calendar c = Calendar.getInstance();
+        c.setTime(currentDate);
+        Date sundayDay = c.getTime();
+        c.add(Calendar.DAY_OF_MONTH, 1);
+        Date mondayDay = c.getTime();
+        c.add(Calendar.DAY_OF_MONTH, 1);
+        Date tuesdayDay = c.getTime();
+        c.add(Calendar.DAY_OF_MONTH, 1);
+        Date wednesdayDay = c.getTime();
+        c.add(Calendar.DAY_OF_MONTH, 1);
+        Date thursdayDay = c.getTime();
+        c.add(Calendar.DAY_OF_MONTH, 1);
+        Date fridayDay = c.getTime();
+        c.add(Calendar.DAY_OF_MONTH, 1);
+        Date saturdayDay = c.getTime();
+
+
+        String sunday = sdf.format(sundayDay);
+        String monday = sdf.format(mondayDay);
+        String tuesday = sdf.format(tuesdayDay);
+        String wednesday = sdf.format(wednesdayDay);
+        String thursday = sdf.format(thursdayDay);
+        String friday = sdf.format(fridayDay);
+        String saturday = sdf.format(saturdayDay);
+
+        sun.setText(sunday);
+        mon.setText(monday);
+        tue.setText(tuesday);
+        wed.setText(wednesday);
+        thu.setText(thursday);
+        fri.setText(friday);
+        sat.setText(saturday);
+    }
+
+    public void determinePrevWeek() {
         SimpleDateFormat sdf = new SimpleDateFormat("MMM dd");
         SimpleDateFormat sdf2 = new SimpleDateFormat("MM-dd-yyyy");
-/*        if (sun< 1) {
-            if (month == 1) {
-                month = 12;
-                year -= 1;
-            } else {
-                month -= 1;
-            }
-            sun += daysInPrevMonth;
-            daysInMonth = daysInPrevMonth;
-            switchDaysInPrevMonth(month);
-        }*/
-        String strDate = month + "-" + sun + "-" + year;
+        String strDate = this.selectedMonth + "-" + this.sunday + "-" + this.selectedYear;
         Date currentDate = null;
         try {
             currentDate = sdf2.parse(strDate);
@@ -292,146 +307,31 @@ public class WeekFragment extends Fragment implements View.OnClickListener {
         c.setTime(currentDate);
 
         c.add(Calendar.DAY_OF_MONTH, -7);
+        int prevSundayDay = c.get(Calendar.DATE);
+        int prevSundayMonth = c.get(Calendar.MONTH) + 1;
+        int prevSundayYear = c.get(Calendar.YEAR);
+        this.selectedMonth = prevSundayMonth;
+        this.selectedDay = prevSundayDay;
+        this.sunday = prevSundayDay;
+        this.selectedYear = prevSundayYear;
+        this.selectedWeekday = 1;
 
-        selectedDay = c.get(Calendar.DATE);
-        selectedMonth = c.get(Calendar.MONTH);
-        selectedYear = c.get(Calendar.YEAR);
+        Date prevSundayDate = c.getTime();
 
-        Date nextSundayDate = c.getTime();
-
-        c.setTime(nextSundayDate);
 
         c.add(Calendar.DAY_OF_MONTH, 6);
 
-        Date nextSaturdayDate = c.getTime();
+        Date prevSaturdayDate = c.getTime();
 
-        String nextSaturdayStr = sdf.format(nextSaturdayDate);
-        String nextSundayStr = sdf.format(nextSundayDate);
+        String nextSaturdayStr = sdf.format(prevSaturdayDate);
+        String nextSundayStr = sdf.format(prevSundayDate);
 
         String label = nextSundayStr + " - " + nextSaturdayStr;
 
         currentWeek = label;
         setCurrent();
-        Log.w("testback", "" + ((GlobalDateVariables) this.getActivity().getApplication()).getSelectedDay());
-
     }
 
-    public void switchDaysInPrevMonth(int monthInt) {
-        switch (monthInt) {
-            case 1:
-                this.daysInPrevMonth = 31;
-            case 2:
-                this.daysInPrevMonth = 31;
-            case 3:
-                if (selectedYear / 4 == 0 || (selectedYear / 100 == 0 && selectedYear / 400 == 0)) {
-                    this.daysInPrevMonth = 29;
-                } else {
-                    this.daysInPrevMonth = 28;
-                }
-            case 4:
-                this.daysInPrevMonth = 31;
-            case 5:
-                this.daysInPrevMonth = 30;
-            case 6:
-                this.daysInPrevMonth = 31;
-            case 7:
-                this.daysInPrevMonth = 30;
-            case 8:
-                this.daysInPrevMonth = 31;
-            case 9:
-                this.daysInPrevMonth = 31;
-            case 10:
-                this.daysInPrevMonth = 30;
-            case 11:
-                this.daysInPrevMonth = 31;
-            case 12:
-                this.daysInPrevMonth = 30;
-        }
-    }
-
-    /*public void setNewVariables(){
-        String sat;
-        String sun;
-        String month1;
-        String month2;
-        if (saturday > daysInMonth) {
-            if (selectedMonth == 12) {
-                nextMonthInt = 1;
-                month2 = switchShortMonthToString(nextMonthInt);
-                saturday = saturday - daysInMonth;
-                selectedYear++;
-            } else {
-                nextMonthInt = selectedMonth + 1;
-                saturday = saturday - daysInMonth;
-                month2 = switchShortMonthToString(nextMonthInt);
-            }
-            sat = month2 + " " + saturday;
-        } else {
-            sat = "" + saturday;
-        }
-        if (sunday < 1) {
-            if (selectedMonth== 1) {
-                prevMonthInt = 12;
-                sunday = sunday + daysInPrevMonth;
-                month1 = switchShortMonthToString(prevMonthInt);
-                selectedYear--;
-            } else {
-                prevMonthInt = selectedMonth - 1;
-                sunday = sunday + daysInPrevMonth;
-                month1 = switchShortMonthToString(prevMonthInt);
-            }
-            sun = month1 + " " + sunday;
-            sat = switchShortMonthToString(selectedMonth) + " " + saturday;
-
-        } else {
-            month1 = switchShortMonthToString(selectedMonth);
-            sun = month1 + " " + sunday;
-        }
-        currentWeek = sun + "-" + sat;
-    }*/
-
-    /*public void setVariables() {
-        ((GlobalDateVariables) this.getActivity().getApplication()).setDaysInPrevMonth(setDaysInPrevMonths(selectedMonth));
-        ((GlobalDateVariables) this.getActivity().getApplication()).setDaysInMonth(setDaysInMonths(selectedMonth));
-
-        ((GlobalDateVariables) this.getActivity().getApplication()).setSunday(selectedWeekday);
-        ((GlobalDateVariables) this.getActivity().getApplication()).setSaturday(selectedWeekday);
-        saturday = ((GlobalDateVariables) this.getActivity().getApplication()).getSaturday();
-        sunday = ((GlobalDateVariables) this.getActivity().getApplication()).getSunday();
-        if (saturday > ((GlobalDateVariables) this.getActivity().getApplication()).getDaysInMonth()) {
-            if (selectedMonth == 12) {
-                ((GlobalDateVariables) this.getActivity().getApplication()).setNextMonthInt(1);
-                ((GlobalDateVariables) this.getActivity().getApplication()).setSelectedYear(selectedYear + 1);
-            } else {
-                ((GlobalDateVariables) this.getActivity().getApplication()).setNextMonthInt(selectedMonth + 1);
-            }
-            month2 = switchShortMonthToString(((GlobalDateVariables) this.getActivity().getApplication()).getNextMonthInt());
-
-            saturday -= ((GlobalDateVariables) this.getActivity().getApplication()).getDaysInMonth();
-            sat = month2 + " " + saturday;
-        } else {
-            sat = "" + saturday;
-        }
-        if (sunday < 1) {
-            if (selectedMonth == 1) {
-                ((GlobalDateVariables) this.getActivity().getApplication()).setPrevMonthInt(12);
-                ((GlobalDateVariables) this.getActivity().getApplication()).setSelectedYear(selectedYear - 1);
-            } else {
-                ((GlobalDateVariables) this.getActivity().getApplication()).setPrevMonthInt(selectedMonth - 1);
-            }
-            month1 = switchShortMonthToString(((GlobalDateVariables) this.getActivity().getApplication()).getPrevMonthInt());
-
-            sunday += ((GlobalDateVariables) this.getActivity().getApplication()).getDaysInPrevMonth();
-
-            sun = month1 + " " + sunday;
-            sat = switchShortMonthToString(selectedMonth) + " " + saturday;
-
-        } else {
-            sun = switchShortMonthToString(selectedMonth) + " " + sunday;
-        }
-        currentWeek = sun + "-" + sat;
-    }
-*/
     public String switchShortMonthToString(int m) {
         switch (m) {
             case 1:
@@ -482,33 +382,4 @@ public class WeekFragment extends Fragment implements View.OnClickListener {
         return null;
     }
 
-    public String switchMonthToString(int m) {
-        switch (m) {
-            case 1:
-                return "January";
-            case 2:
-                return "February";
-            case 3:
-                return "March";
-            case 4:
-                return "April";
-            case 5:
-                return "May";
-            case 6:
-                return "June";
-            case 7:
-                return "July";
-            case 8:
-                return "August";
-            case 9:
-                return "September";
-            case 10:
-                return "October";
-            case 11:
-                return "November";
-            case 12:
-                return "December";
-        }
-        return null;
-    }
 }

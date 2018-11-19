@@ -27,7 +27,6 @@ public class DayFragment extends Fragment implements View.OnClickListener {
 
 
     public DayFragment() {
-
     }
 
     public static DayFragment newInstance(int selectedDay, int selectedWeekday, int selectedMonth, int selectedYear) {
@@ -44,7 +43,6 @@ public class DayFragment extends Fragment implements View.OnClickListener {
 
     private void readBundle(Bundle bundle) {
         if (bundle != null) {
-
             selectedDay = bundle.getInt("selectedDay");
             selectedMonth = bundle.getInt("selectedMonth");
             selectedWeekday = bundle.getInt("selectedWeekday");
@@ -62,12 +60,12 @@ public class DayFragment extends Fragment implements View.OnClickListener {
         this.selectedYear = ((GlobalDateVariables) this.getActivity().getApplication()).getSelectedYear();
         this.selectedWeekday = ((GlobalDateVariables) this.getActivity().getApplication()).getSelectedWeekday();
 
-        ImageButton nextButton = v.findViewById(R.id.nextday);
-        ImageButton prevButton = v.findViewById(R.id.previousday);
+        ImageButton nextDayButton = v.findViewById(R.id.nextday);
+        ImageButton prevDayButton = v.findViewById(R.id.previousday);
         dayViewDayText = v.findViewById(R.id.currentDay);
 
-        nextButton.setOnClickListener(this);
-        prevButton.setOnClickListener(this);
+        nextDayButton.setOnClickListener(this);
+        prevDayButton.setOnClickListener(this);
         readBundle(getArguments());
         dayViewDayText.setText(selectedDate);
 
@@ -75,10 +73,8 @@ public class DayFragment extends Fragment implements View.OnClickListener {
         return v;
     }
 
-
     @Override
     public void onClick(View v) {
-
         Fragment frag = null;
         switch (v.getId()) {
             case R.id.nextday:
@@ -104,7 +100,6 @@ public class DayFragment extends Fragment implements View.OnClickListener {
 
         }
         if (R.id.previousday == id) {
-
             FragmentManager fm = getFragmentManager();
             FragmentTransaction ft = fm.beginTransaction();
             frag = DayFragment.newInstance(selectedDay, selectedWeekday, selectedMonth, selectedYear);
@@ -114,52 +109,32 @@ public class DayFragment extends Fragment implements View.OnClickListener {
         }
     }
 
-    public int switchDayOfWeek(String d) {
-        switch (d) {
-            case "Sunday":
-                return 1;
-            case "Monday":
-                return 2;
-            case "Tuesday":
-                return 3;
-            case "Wednesday":
-                return 4;
-            case "Thursday":
-                return 5;
-            case "Friday":
-                return 6;
-            case "Saturday":
-                return 7;
-        }
-        return 0;
-    }
-
-    public String switchMonthToString(int m) {
+    public String switchShortMonthToString(int m) {
         switch (m) {
             case 1:
-                return "January";
+                return "Jan";
             case 2:
-                return "February";
+                return "Feb";
             case 3:
-                return "March";
+                return "Mar";
             case 4:
-                return "April";
+                return "Apr";
             case 5:
                 return "May";
             case 6:
-                return "June";
+                return "Jun";
             case 7:
-                return "July";
+                return "Jul";
             case 8:
-                return "August";
+                return "Aug";
             case 9:
-                return "September";
+                return "Sep";
             case 10:
-                return "October";
+                return "Oct";
             case 11:
-                return "November";
+                return "Nov";
             case 12:
-                return "December";
+                return "Dec";
         }
         return null;
     }
@@ -189,7 +164,7 @@ public class DayFragment extends Fragment implements View.OnClickListener {
         selectedWeekday = ((GlobalDateVariables) this.getActivity().getApplication()).getSelectedWeekday();
         selectedMonth = ((GlobalDateVariables) this.getActivity().getApplication()).getSelectedMonth();
         selectedYear = ((GlobalDateVariables) this.getActivity().getApplication()).getSelectedYear();
-        currentMonth = switchMonthToString(selectedMonth); //string month
+        currentMonth = switchShortMonthToString(selectedMonth); //string month
         currentWeekday = switchDayofWeektoString(selectedWeekday); //returns string of weekday
         currentDay = Integer.toString(selectedDay); //string of day eg. "1"
         currentYear = Integer.toString(selectedYear); //string year eg. "2018"
@@ -203,14 +178,12 @@ public class DayFragment extends Fragment implements View.OnClickListener {
 
     public void setNextVariables(int month, int daysinmonth, int dayofweek, int day, int year) {
         if (day == daysinmonth) { //last day of month
-
             ((GlobalDateVariables) this.getActivity().getApplication()).setSelectedDay(1); //set day to 1
             if (dayofweek == 7) {
                 ((GlobalDateVariables) this.getActivity().getApplication()).setSelectedWeekday(1); //reset day of week
             } else {
                 ((GlobalDateVariables) this.getActivity().getApplication()).setSelectedWeekday(dayofweek + 1); //increase day of week by 1
             }
-
             if (month == 12) {//if december
                 ((GlobalDateVariables) this.getActivity().getApplication()).setSelectedMonth(1); //reset month
                 ((GlobalDateVariables) this.getActivity().getApplication()).setSelectedYear(year + 1);//increase year
@@ -218,7 +191,6 @@ public class DayFragment extends Fragment implements View.OnClickListener {
                 //selectedYear = year;//year stays the same
                 ((GlobalDateVariables) this.getActivity().getApplication()).setSelectedMonth(month + 1);
             }
-
         } else {
             ((GlobalDateVariables) this.getActivity().getApplication()).setSelectedDay(day + 1);
             // selectedMonth = 1; //month stay the same
@@ -228,14 +200,12 @@ public class DayFragment extends Fragment implements View.OnClickListener {
                 ((GlobalDateVariables) this.getActivity().getApplication()).setSelectedWeekday(dayofweek + 1); //increase day of week by 1
             }
             //selectedYear = year; //stays the same
-
         }
         setCurrent();
     }
 
     public void setPrevVariables(int month, int daysinprevmonth, int dayofweek, int day, int year) {
         if (day == 1) { //first day of month
-            ((GlobalDateVariables) this.getActivity().getApplication()).setSelectedMonth(month - 1); //decrease month by 1
             ((GlobalDateVariables) this.getActivity().getApplication()).setSelectedDay(daysinprevmonth); //set day to max in previous month
             if (dayofweek == 1) {
                 ((GlobalDateVariables) this.getActivity().getApplication()).setSelectedWeekday(7);//loop day of week
@@ -252,19 +222,17 @@ public class DayFragment extends Fragment implements View.OnClickListener {
         } else {
             ((GlobalDateVariables) this.getActivity().getApplication()).setSelectedDay(day - 1);
             // selectedMonth = 1; //month stay the same
-            if (((GlobalDateVariables) this.getActivity().getApplication()).getSelectedWeekday() == 1) {
+            if (dayofweek == 1) {
                 ((GlobalDateVariables) this.getActivity().getApplication()).setSelectedWeekday(7); //loop day of week
             } else {
                 ((GlobalDateVariables) this.getActivity().getApplication()).setSelectedWeekday(dayofweek - 1);//decrease day of week by 1
             }
             //selectedYear = year; //stays the same
-
         }
         setCurrent();
     }
 
     private void determineNextDate(int mont) {
-
         switch (mont) {
             case 1:
                 setNextVariables(mont, 31, selectedWeekday, selectedDay, selectedYear);

@@ -3,7 +3,6 @@ package com.example.jameskoss.cosc341_project;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
@@ -29,6 +28,5 @@ public class WeekJumpFragment extends Fragment {
         ft.commit();
 
     }
-
 
 }
