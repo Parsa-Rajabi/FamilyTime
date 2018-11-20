@@ -47,7 +47,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="12dp"
         android:clickable="true"
-        app:backgroundTint="@color/design_default_color_primary"
+        app:backgroundTint="@color/colorOverlayButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/monthButton"
         app:layout_constraintTop_toTopOf="parent"

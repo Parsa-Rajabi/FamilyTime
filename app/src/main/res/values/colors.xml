@@ -7,4 +7,5 @@
     <color name="black_color">#000000</color>
     <color name="grey_color">#666666</color>
     <color name="red_color">#ff0000</color>
+    <color name="colorOverlayButton">#2fc4d1</color>
 </resources>
