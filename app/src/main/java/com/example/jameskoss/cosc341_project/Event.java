@@ -4,16 +4,16 @@ import java.util.Date;
 import java.sql.Timestamp;
 
 public class Event {
-    String id;
-    String title;
-    Date startTime;
-    Date endTime;
-    String recurringChainId;
-    int frequency;
-    int repetitions;
-    String location;
-    String colour;
-    String note;
+    private String id;
+    private String title;
+    private Date startTime;
+    private Date endTime;
+    private String recurringChainId;
+    private int frequency;
+    private int repetitions;
+    private String location;
+    private String colour;
+    private String note;
 
     public Event ( String id, String title, Date startTime, Date endTime, String recurringChainId,
                    int frequency, int repetitions, String location, String colour, String note ) {

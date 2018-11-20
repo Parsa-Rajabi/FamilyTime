@@ -81,7 +81,7 @@ public class DayFragment extends Fragment implements View.OnClickListener {
             param.setGravity(Gravity.FILL);
             param.columnSpec = GridLayout.spec(0,1,1f);
             param.rowSpec = GridLayout.spec(i,1);
-            gridlayout.addView(tv, param); //TODO THIS MIGHT HAVE TO BE SPLIT INTO gridview.addView()... and tv.setLayoutParams()...
+            gridlayout.addView(tv, param);
 
             tv = new TextView(getContext());
             tv.setId(View.generateViewId());
@@ -97,10 +97,11 @@ public class DayFragment extends Fragment implements View.OnClickListener {
             gridlayout.addView(tv, param);
         }
 
-//        Schedule s = new Schedule(); //TODO PASS IN USER SCHEDULE
-//        // s.createFromFile("data.txt"); // pass in the user schedule file, or put this file string in the constructor as its only argument
-//        s.printDay(new Date(), v, getContext());
-//        //TODO see if these three lines of code were all that was needed??
+        Schedule s = new Schedule(); //TODO PASS IN USER SCHEDULE
+        s.generateTestSchedule();
+        // s.createFromFile("data.txt"); // pass in the user schedule file, or put this file string in the constructor as its only argument
+        s.printDay(new Date(), gridlayout, getContext());
+        //TODO see if these three lines of code were all that was needed??
 
         ImageButton nextDayButton = v.findViewById(R.id.nextday);
         ImageButton prevDayButton = v.findViewById(R.id.previousday);
