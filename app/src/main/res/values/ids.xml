@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <item name="sun" type="id"/>
+    <item name="mon" type="id"/>
+    <item name="tue" type="id"/>
+    <item name="wed" type="id"/>
+    <item name="thu" type="id"/>
+    <item name="fri" type="id"/>
+    <item name="sat" type="id"/>
+
+</resources>

@@ -5,11 +5,15 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.GridLayout;
 import android.widget.ImageButton;
 import android.widget.TextView;
+
+import java.util.Date;
 
 
 public class DayFragment extends Fragment implements View.OnClickListener {
@@ -59,6 +63,44 @@ public class DayFragment extends Fragment implements View.OnClickListener {
         this.selectedDay = ((GlobalDateVariables) this.getActivity().getApplication()).getSelectedDay();
         this.selectedYear = ((GlobalDateVariables) this.getActivity().getApplication()).getSelectedYear();
         this.selectedWeekday = ((GlobalDateVariables) this.getActivity().getApplication()).getSelectedWeekday();
+
+        //Create the big grid view
+        GridLayout gridlayout = v.findViewById(R.id.gridday);
+        String[] times = getResources().getStringArray(R.array.timelist);
+        for (int i = 0; i < 48; i++) {
+            TextView tv = new TextView(getContext());
+            tv.setId(View.generateViewId());
+            tv.setText(times[i]);
+            tv.setPadding(5,5,5,5);
+            tv.setBackgroundColor(getResources().getColor(R.color.white_color));
+            GridLayout.LayoutParams param = new GridLayout.LayoutParams();
+            param.height = GridLayout.LayoutParams.WRAP_CONTENT;
+            param.width = GridLayout.LayoutParams.WRAP_CONTENT;
+            param.rightMargin = 1;
+            param.topMargin = ((i+1)%2)+1; // oscillate between 2dp and 1dp top margin
+            param.setGravity(Gravity.FILL);
+            param.columnSpec = GridLayout.spec(0,1,1f);
+            param.rowSpec = GridLayout.spec(i,1);
+            gridlayout.addView(tv, param); //TODO THIS MIGHT HAVE TO BE SPLIT INTO gridview.addView()... and tv.setLayoutParams()...
+
+            tv = new TextView(getContext());
+            tv.setId(View.generateViewId());
+            tv.setPadding(5,5,5,5);
+            tv.setBackgroundColor(getResources().getColor(R.color.white_color));
+            param = new GridLayout.LayoutParams();
+            param.height = GridLayout.LayoutParams.WRAP_CONTENT;
+            param.width = GridLayout.LayoutParams.WRAP_CONTENT;
+            param.topMargin = ((i+1)%2)+1; // oscillate between 2dp and 1dp top margin
+            param.setGravity(Gravity.FILL);
+            param.columnSpec = GridLayout.spec(1,1,10f);
+            param.rowSpec = GridLayout.spec(i,1);
+            gridlayout.addView(tv, param);
+        }
+
+//        Schedule s = new Schedule(); //TODO PASS IN USER SCHEDULE
+//        // s.createFromFile("data.txt"); // pass in the user schedule file, or put this file string in the constructor as its only argument
+//        s.printDay(new Date(), v, getContext());
+//        //TODO see if these three lines of code were all that was needed??
 
         ImageButton nextDayButton = v.findViewById(R.id.nextday);
         ImageButton prevDayButton = v.findViewById(R.id.previousday);

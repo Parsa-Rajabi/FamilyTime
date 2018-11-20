@@ -6,9 +6,11 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.GridLayout;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -96,6 +98,102 @@ public class WeekFragment extends Fragment implements View.OnClickListener {
         this.sunday = ((GlobalDateVariables) this.getActivity().getApplication()).getSunday();
         this.saturday = ((GlobalDateVariables) this.getActivity().getApplication()).getSaturday();
         this.currentWeek = ((GlobalDateVariables) this.getActivity().getApplication()).getCurrentWeek();
+
+        //Create the big grid view
+        GridLayout gridlayout = v.findViewById(R.id.gridweektime);
+        String[] times = getResources().getStringArray(R.array.timelist);
+        for (int i = 0; i < 49; i++) {
+            if (i == 0) {
+                TextView tv = new TextView(getContext());
+                tv.setId(View.generateViewId());
+                tv.setPadding(5,5,5,5);
+                tv.setBackgroundColor(getResources().getColor(R.color.white_color));
+                GridLayout.LayoutParams param = new GridLayout.LayoutParams();
+                param.height = GridLayout.LayoutParams.WRAP_CONTENT;
+                param.width = GridLayout.LayoutParams.WRAP_CONTENT;
+                param.setGravity(Gravity.FILL);
+                param.bottomMargin = 4;
+                param.columnSpec = GridLayout.spec(0,1,1f);
+                param.rowSpec = GridLayout.spec(i,1);
+                gridlayout.addView(tv, param);
+            } else {
+                TextView tv = new TextView(getContext());
+                tv.setId(View.generateViewId());
+                tv.setText(times[i-1]);
+                tv.setPadding(5, 5, 5, 5);
+                tv.setBackgroundColor(getResources().getColor(R.color.white_color));
+                GridLayout.LayoutParams param = new GridLayout.LayoutParams();
+                param.height = GridLayout.LayoutParams.WRAP_CONTENT;
+                param.width = GridLayout.LayoutParams.WRAP_CONTENT;
+                param.rightMargin = 1;
+                param.topMargin = ((i + 1) % 2) + 1; // oscillate between 2dp and 1dp top margin
+                param.setGravity(Gravity.FILL);
+                param.columnSpec = GridLayout.spec(0, 1, 1f);
+                param.rowSpec = GridLayout.spec(i, 1);
+                gridlayout.addView(tv, param); //TODO THIS MIGHT HAVE TO BE SPLIT INTO gridview.addView()... and tv.setLayoutParams()...
+            }
+
+        }
+        gridlayout = v.findViewById(R.id.gridweek);
+        String[] weekdays = getResources().getStringArray(R.array.weekdays);
+        for (int i = 0; i < 49; i++) {
+            for (int j = 0; j < 7; j++) {
+                if (i==0) {
+                    TextView tv = new TextView(getContext());
+                    switch (j) {
+                        case 0:
+                            tv.setId(R.id.sun);
+                            break;
+                        case 1:
+                            tv.setId(R.id.mon);
+                            break;
+                        case 2:
+                            tv.setId(R.id.tue);
+                            break;
+                        case 3:
+                            tv.setId(R.id.wed);
+                            break;
+                        case 4:
+                            tv.setId(R.id.thu);
+                            break;
+                        case 5:
+                            tv.setId(R.id.fri);
+                            break;
+                        case 6:
+                            tv.setId(R.id.sat);
+                            break;
+                    }
+                    tv.setPadding(5, 5, 5, 5);
+                    tv.setBackgroundColor(getResources().getColor(R.color.white_color));
+                    GridLayout.LayoutParams param = new GridLayout.LayoutParams();
+                    param.height = GridLayout.LayoutParams.WRAP_CONTENT;
+                    param.width = GridLayout.LayoutParams.WRAP_CONTENT;
+                    param.bottomMargin = 4;
+                    param.setGravity(Gravity.FILL);
+                    param.columnSpec = GridLayout.spec(j, 1, 1f);
+                    param.rowSpec = GridLayout.spec(i, 1);
+                    gridlayout.addView(tv, param);
+                } else {
+                    TextView tv = new TextView(getContext());
+                    tv.setId(View.generateViewId());
+                    tv.setPadding(5, 5, 5, 5);
+                    tv.setBackgroundColor(getResources().getColor(R.color.white_color));
+                    GridLayout.LayoutParams param = new GridLayout.LayoutParams();
+                    param.height = GridLayout.LayoutParams.WRAP_CONTENT;
+                    param.width = GridLayout.LayoutParams.WRAP_CONTENT;
+                    param.rightMargin = 1;
+                    param.topMargin = ((i + 1) % 2) + 1; // oscillate between 2dp and 1dp top margin
+                    param.setGravity(Gravity.FILL);
+                    param.columnSpec = GridLayout.spec(j, 1, 1f);
+                    param.rowSpec = GridLayout.spec(i, 1);
+                    gridlayout.addView(tv, param);
+                }
+            }
+        }
+//        Schedule s = new Schedule(); //TODO PASS IN USER SCHEDULE
+//        // s.createFromFile("data.txt"); // pass in the user schedule file, or put this file string in the constructor as its only argument
+//        s.printWeek(new Date(), v, getContext());
+//        //TODO see if these three lines of code were all that was needed??
 
         setDaysOfWeekView(v);
 
