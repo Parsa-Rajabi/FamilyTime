@@ -137,15 +137,24 @@ public class MainViews extends FragmentActivity {
         try {
             Intent i = new Intent(this, CreateEvent.class);
             Bundle b = new Bundle();
-            Date d = new SimpleDateFormat("yyyy/MM/dd").parse(((GlobalDateVariables) this.getApplication()).getSelectedYear() + "/" + ((GlobalDateVariables) this.getApplication()).getSelectedMonth() + "/" + ((GlobalDateVariables) this.getApplication()).getSelectedDate());
+            SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy/MM/dd");
+            String strDate = ((GlobalDateVariables) this.getApplication()).getSelectedYear() + "/" + ((GlobalDateVariables) this.getApplication()).getSelectedMonth() + "/" + ((GlobalDateVariables) this.getApplication()).getSelectedDate();
+            Date currentDate = null;
+
+            try {
+                currentDate = sdf2.parse(strDate);
+
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            Toast.makeText(getApplicationContext(), "We got past the parsa", Toast.LENGTH_SHORT).show();
             SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
-            String dateToPass = sdf.format(d);
+            String dateToPass = sdf.format(currentDate);
             b.putString("date", dateToPass);
             Date today = new Date();
-            SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy/MM/dd");
-            String strDate = sdf2.format(today);
-            today = sdf2.parse(strDate);
-            boolean isDayToday = (d.compareTo(today) == 0);
+            String strDate1 = sdf2.format(today);
+            today = sdf2.parse(strDate1);
+            boolean isDayToday = (currentDate.compareTo(today) == 0);
             b.putBoolean("present", isDayToday);
             b.putString("timestamp","-1");
             b.putString("username", "Mothership");
@@ -153,7 +162,7 @@ public class MainViews extends FragmentActivity {
             i.putExtras(b);
             startActivity(i);
         } catch(ParseException e) {
-            Toast.makeText(getApplicationContext(), "something went wrong :(", Toast.LENGTH_SHORT).show();
+
         }
     }
 }
