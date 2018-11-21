@@ -1,7 +1,9 @@
 package com.example.jameskoss.cosc341_project;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.text.Layout;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
@@ -61,25 +63,39 @@ public class Schedule {
         }
     }
     public void printDay(Date day, GridLayout gridlayout, Context c) {
+        final float scale = c.getResources().getDisplayMetrics().density;
         for (int i = 0; i < events.size(); i++) {
             Event currentEvent = events.get(0);
             Date start = currentEvent.getStartTime();
             Date end = currentEvent.getEndTime();
-            //TODO Potentially do the multi day detect here.
-            if (!(day.before(start) || day.after(end))) { //TODO: Potentially use Calendar class to check that this event is (at the least partially) today
+            Calendar cs = Calendar.getInstance();
+            Calendar ce = Calendar.getInstance();
+            Calendar cd = Calendar.getInstance();
+            cs.setTime(start);
+            ce.setTime(end);
+            cd.setTime(day);
+            if (!(cd.get(Calendar.DAY_OF_YEAR) < cs.get(Calendar.DAY_OF_YEAR) || cd.get(Calendar.YEAR) < cs.get(Calendar.YEAR) || cd.get(Calendar.DAY_OF_YEAR) > ce.get(Calendar.DAY_OF_YEAR) || cd.get(Calendar.YEAR) > ce.get(Calendar.YEAR))) {
                 //this event is today
                 Button btn = new Button(c);
                 btn.setId(View.generateViewId());
+                btn.setEllipsize(TextUtils.TruncateAt.END);
                 btn.setText(c.getResources().getString(R.string.event_title_format,currentEvent.getTitle(),currentEvent.getLocation()));
-                btn.setPadding(5,5,5,5);
-                btn.setBackgroundColor(c.getResources().getColor(R.color.white_color));
+                btn.setBackgroundColor(Color.parseColor(currentEvent.getColour()));
                 GridLayout.LayoutParams param = new GridLayout.LayoutParams();
                 param.setGravity(Gravity.FILL);
-                int st = getIndexForTime(start);
-                int en = getIndexForTime(end)-st;
-                //TODO:left off here
-                param.columnSpec = GridLayout.spec(0,1,1f);
-                param.rowSpec = GridLayout.spec(i,1);
+                int startIdx = 0;
+                int endIdx = 47;
+                if (cd.get(Calendar.DAY_OF_YEAR) == cs.get(Calendar.DAY_OF_YEAR) && cd.get(Calendar.YEAR) == cs.get(Calendar.YEAR)) {
+                    startIdx = getIndexForTime(start);
+                }
+                if (cd.get(Calendar.DAY_OF_YEAR) == ce.get(Calendar.DAY_OF_YEAR) && cd.get(Calendar.YEAR) == ce.get(Calendar.YEAR)) {
+                    endIdx = getIndexForTime(end);
+                }
+                int len = endIdx - startIdx + 1;
+                int pixels = (int) (5 * scale + 0.5f);
+                param.setMargins(pixels,pixels,pixels,pixels);
+                param.columnSpec = GridLayout.spec(1,1,1f);
+                param.rowSpec = GridLayout.spec(startIdx,len);
                 gridlayout.addView(btn, param);
             }
         }
@@ -97,48 +113,24 @@ public class Schedule {
         return (hour*2) + (minute/30);
         //NOTE: Returns an int from 0 to 47 inclusive based on passed date
     }
-
-    public void generateTestSchedule() {
-        try {
-            this.events = new ArrayList<Event>();
-            this.events.add(new Event(
-                    "12345678",
-                    "COSC 341",
-                    new SimpleDateFormat().parse("2018/11/20 03:00:00"),
-                    new SimpleDateFormat().parse("2018/11/20 06:00:00"),
-                    "-1",
-                    Integer.parseInt("0"),
-                    Integer.parseInt("0"),
-                    "Art Room 341",
-                    "#ff00ff",
-                    "Test Note"
-            ));
-            this.events.add(new Event(
-                    "12345679",
-                    "COSC 400",
-                    new SimpleDateFormat().parse("2018/11/22 08:00:00"),
-                    new SimpleDateFormat().parse("2018/11/22 09:00:00"),
-                    "-1",
-                    Integer.parseInt("0"),
-                    Integer.parseInt("0"),
-                    "Art Room 400",
-                    "#006869",
-                    "Test Note"
-            ));
-            this.events.add(new Event(
-                    "12345680",
-                    "COSC 150",
-                    new SimpleDateFormat().parse("2018/11/21 10:00:00"),
-                    new SimpleDateFormat().parse("2018/11/21 10:30:00"),
-                    "-1",
-                    Integer.parseInt("0"),
-                    Integer.parseInt("0"),
-                    "Art Room 150",
-                    "#66eeaa",
-                    "Test Note"
-            ));
-        } catch (ParseException e) {
-
+    public void testStuff(GridLayout gridlayout, Context c, int amt) {
+        final float scale = c.getResources().getDisplayMetrics().density;
+        for (int i = 0; i < amt; i++) {
+            Button btn = new Button(c);
+            btn.setId(View.generateViewId());
+            btn.setEllipsize(TextUtils.TruncateAt.END);
+            btn.setText(c.getResources().getString(R.string.event_title_format, "TestStuff"+i, "Test Location "+i));
+            btn.setBackgroundColor(Color.parseColor("#88dd88aa"));
+            GridLayout.LayoutParams param = new GridLayout.LayoutParams();
+            param.setGravity(Gravity.FILL);
+            int startIdx = (int)Math.floor(Math.random()*40);
+            int len = (int)Math.ceil(Math.random()*6);
+            int pixels = (int) (5 * scale + 0.5f);
+            param.setMargins(pixels, pixels, pixels, pixels);
+            param.columnSpec = GridLayout.spec(1, 1, 1f);
+            param.rowSpec = GridLayout.spec(startIdx, 4);
+            btn.setLayoutParams(param);
+            gridlayout.addView(btn);
         }
     }
 }

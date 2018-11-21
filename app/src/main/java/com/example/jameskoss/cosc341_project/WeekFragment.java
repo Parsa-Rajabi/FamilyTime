@@ -107,7 +107,7 @@ public class WeekFragment extends Fragment implements View.OnClickListener {
                 TextView tv = new TextView(getContext());
                 tv.setId(View.generateViewId());
                 tv.setPadding(5,5,5,5);
-                tv.setBackgroundColor(getResources().getColor(R.color.white_color));
+                tv.setBackgroundColor(getContext().getColor(R.color.white_color));
                 GridLayout.LayoutParams param = new GridLayout.LayoutParams();
                 param.height = GridLayout.LayoutParams.WRAP_CONTENT;
                 param.width = GridLayout.LayoutParams.WRAP_CONTENT;
@@ -121,7 +121,7 @@ public class WeekFragment extends Fragment implements View.OnClickListener {
                 tv.setId(View.generateViewId());
                 tv.setText(times[i-1]);
                 tv.setPadding(5, 5, 5, 5);
-                tv.setBackgroundColor(getResources().getColor(R.color.white_color));
+                tv.setBackgroundColor(getContext().getColor(R.color.white_color));
                 GridLayout.LayoutParams param = new GridLayout.LayoutParams();
                 param.height = GridLayout.LayoutParams.WRAP_CONTENT;
                 param.width = GridLayout.LayoutParams.WRAP_CONTENT;
@@ -164,7 +164,7 @@ public class WeekFragment extends Fragment implements View.OnClickListener {
                             break;
                     }
                     tv.setPadding(5, 5, 5, 5);
-                    tv.setBackgroundColor(getResources().getColor(R.color.white_color));
+                    tv.setBackgroundColor(getContext().getColor(R.color.white_color));
                     GridLayout.LayoutParams param = new GridLayout.LayoutParams();
                     param.height = GridLayout.LayoutParams.WRAP_CONTENT;
                     param.width = GridLayout.LayoutParams.WRAP_CONTENT;
@@ -177,7 +177,7 @@ public class WeekFragment extends Fragment implements View.OnClickListener {
                     TextView tv = new TextView(getContext());
                     tv.setId(View.generateViewId());
                     tv.setPadding(5, 5, 5, 5);
-                    tv.setBackgroundColor(getResources().getColor(R.color.white_color));
+                    tv.setBackgroundColor(getContext().getColor(R.color.white_color));
                     GridLayout.LayoutParams param = new GridLayout.LayoutParams();
                     param.height = GridLayout.LayoutParams.WRAP_CONTENT;
                     param.width = GridLayout.LayoutParams.WRAP_CONTENT;
@@ -190,8 +190,7 @@ public class WeekFragment extends Fragment implements View.OnClickListener {
                 }
             }
         }
-        Schedule s = new Schedule(); //TODO PASS IN USER SCHEDULE
-        s.generateTestSchedule();
+        Schedule s = new Schedule("Mothership.txt"); //TODO PASS IN USER SCHEDULE
         // s.createFromFile("data.txt"); // pass in the user schedule file, or put this file string in the constructor as its only argument
         s.printWeek(new Date(), gridlayout, getContext());
         //TODO see if these three lines of code were all that was needed??

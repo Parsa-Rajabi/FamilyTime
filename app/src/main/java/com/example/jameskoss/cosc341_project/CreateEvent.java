@@ -83,7 +83,7 @@ public class CreateEvent extends AppCompatActivity implements RecurringDialog.Re
         colourBtn.setBackgroundColor(Color.parseColor("#ffff00"));
 
         // TODO: add title to app
-        getSupportActionBar().setTitle("FamilyTime");
+        getSupportActionBar().setTitle("FamilyTime - Create Event");
 
         populateSpinners();
 
