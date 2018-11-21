@@ -1,5 +1,6 @@
 package com.example.jameskoss.cosc341_project;
 
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -8,6 +9,10 @@ import android.support.v4.app.FragmentTransaction;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 
 public class MainViews extends FragmentActivity {
@@ -123,6 +128,30 @@ public class MainViews extends FragmentActivity {
             Button monthbutton = findViewById(R.id.monthButton);
             monthbutton.setTypeface(monthbutton.getTypeface(), Typeface.BOLD);
             ft.commit();
+        }
+    }
+
+    public void createEvent(View v) {
+        try {
+            Intent i = new Intent();
+            Bundle b = new Bundle();
+            Date d = new SimpleDateFormat("yyyy/MM/dd").parse(((GlobalDateVariables) this.getApplication()).getSelectedYear() + "/" + ((GlobalDateVariables) this.getApplication()).getSelectedMonth() + "/" + ((GlobalDateVariables) this.getApplication()).getSelectedDate());
+            SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+            String dateToPass = sdf.format(d);
+            b.putString("date", dateToPass);
+            Date today = new Date();
+            SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy/MM/dd");
+            String strDate = sdf2.format(today);
+            today = sdf2.parse(strDate);
+            boolean isDayToday = (d.compareTo(today) == 0);
+            b.putBoolean("present", isDayToday);
+            b.putString("timestamp","-1");
+            b.putString("username", "Mothership");
+//            b.putString("timestamp", v.getTag(-1).toString()); // TODO: get the correct tag
+            i.putExtras(b);
+            startActivity(i);
+        } catch(ParseException e) {
+
         }
     }
 }
