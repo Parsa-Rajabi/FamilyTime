@@ -793,6 +793,8 @@ public class CreateEvent extends AppCompatActivity implements RecurringDialog.Re
             if( resultCode == Activity.RESULT_OK ) {
                 int colour = intent.getIntExtra("hexacode",0);
                 String strColour = colour + "";
+               /* EditText notes = findViewById(R.id.event_noteInput);
+                notes.setText(strColour);*/
                 
                 if ( strColour.equals("2131099779") ) {
                     colourButton.setBackgroundColor(Color.parseColor("#ffff00"));
@@ -812,7 +814,7 @@ public class CreateEvent extends AppCompatActivity implements RecurringDialog.Re
                 }
                 else if ( strColour.equals("2131099722") ) {
                     colourButton.setBackgroundColor(Color.parseColor("#ff5050"));
-                    this.colour = "#ff3399";
+                    this.colour = "#ff5050";
                 }
                 else if ( strColour.equals("2131099648") ) {
                     colourButton.setBackgroundColor(Color.parseColor("#ff6600"));

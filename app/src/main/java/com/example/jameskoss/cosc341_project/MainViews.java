@@ -134,36 +134,42 @@ public class MainViews extends FragmentActivity {
     }
 
     public void createEvent(View v) {
-        try {
+//        try {
             Intent i = new Intent(this, CreateEvent.class);
             Bundle b = new Bundle();
-            SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy/MM/dd");
-            String strDate = ((GlobalDateVariables) this.getApplication()).getSelectedYear() + "/" + ((GlobalDateVariables) this.getApplication()).getSelectedMonth() + "/" + ((GlobalDateVariables) this.getApplication()).getSelectedDate();
-            Date currentDate = null;
-
-            try {
-                currentDate = sdf2.parse(strDate);
-
-            } catch (ParseException e) {
-                e.printStackTrace();
+        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+        String selectedDay = "";
+        if (((GlobalDateVariables) this.getApplication()).getSelectedDay() < 10) {
+            selectedDay = "0" + ((GlobalDateVariables) this.getApplication()).getSelectedDay();
             }
+        String strDate = ((GlobalDateVariables) this.getApplication()).getSelectedMonth() + "/" + selectedDay + "/" + ((GlobalDateVariables) this.getApplication()).getSelectedYear();
+//            Date selectedDate=null;
+//
+//            try {
+//                selectedDate = sdf.parse(strDate);
+//
+//            } catch (ParseException e) {
+//                e.printStackTrace();
+//            }
             Toast.makeText(getApplicationContext(), "We got past the parsa", Toast.LENGTH_SHORT).show();
-            SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
-            String dateToPass = sdf.format(currentDate);
+        Date todayDate = new Date();
+
+        String dateToPass = sdf.format(todayDate);
+
             b.putString("date", dateToPass);
-            Date today = new Date();
-            String strDate1 = sdf2.format(today);
-            today = sdf2.parse(strDate1);
-            boolean isDayToday = (currentDate.compareTo(today) == 0);
+//            Date today = new Date();
+//            String strDate1 = sdf2.format(today);
+//            today = sdf2.parse(strDate1);
+        boolean isDayToday = (strDate.equals(dateToPass));
             b.putBoolean("present", isDayToday);
             b.putString("timestamp","-1");
             b.putString("username", "Mothership");
 //            b.putString("timestamp", v.getTag(-1).toString()); // TODO: get the correct tag
             i.putExtras(b);
             startActivity(i);
-        } catch(ParseException e) {
-
         }
-    }
+//        catch(ParseException e) {
+//
+//        }
 }
 
