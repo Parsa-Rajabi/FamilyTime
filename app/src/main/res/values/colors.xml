@@ -3,6 +3,17 @@
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#d8571b</color>
+
+    <color name="sunshineYellow">#ffff00</color>
+    <color name="myTearsBlue">#3333ff</color>
+    <color name="LakeLouiseTurquoise">#85e0e0</color>
+    <color name="bloodOfYourEnemies">#ff0000</color>
+    <color name="healthyLawnGreen">#33cc33</color>
+    <color name="ProfessorUmbridgePink">#ff3399</color>
+    <color name="GoHolland">#ff6600</color>
+    <color name="Lilac">#cc0099</color>
+    <color name="itsSalmonNotPink">#ff5050</color>
+    <color name="slightlyAggressiveBlue">#006699</color>
     <color name="primePurple">#764d9c</color>
     <color name="primePurpleDark">#563d7c</color>
     <color name="white_color">#ffffff</color>

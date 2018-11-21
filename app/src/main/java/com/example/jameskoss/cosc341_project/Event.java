@@ -70,6 +70,5 @@ public class Event {
         return this.note;
     }
 
-
-
 }
+
