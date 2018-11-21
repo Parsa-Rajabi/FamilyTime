@@ -7,8 +7,10 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -133,7 +135,7 @@ public class MainViews extends FragmentActivity {
 
     public void createEvent(View v) {
         try {
-            Intent i = new Intent();
+            Intent i = new Intent(this, CreateEvent.class);
             Bundle b = new Bundle();
             Date d = new SimpleDateFormat("yyyy/MM/dd").parse(((GlobalDateVariables) this.getApplication()).getSelectedYear() + "/" + ((GlobalDateVariables) this.getApplication()).getSelectedMonth() + "/" + ((GlobalDateVariables) this.getApplication()).getSelectedDate());
             SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
@@ -151,7 +153,7 @@ public class MainViews extends FragmentActivity {
             i.putExtras(b);
             startActivity(i);
         } catch(ParseException e) {
-
+            Toast.makeText(getApplicationContext(), "something went wrong :(", Toast.LENGTH_SHORT).show();
         }
     }
 }
