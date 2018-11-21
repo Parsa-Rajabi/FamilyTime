@@ -3,6 +3,8 @@
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#d8571b</color>
+    <color name="primePurple">#764d9c</color>
+    <color name="primePurpleDark">#563d7c</color>
     <color name="white_color">#ffffff</color>
     <color name="black_color">#000000</color>
     <color name="grey_color">#666666</color>

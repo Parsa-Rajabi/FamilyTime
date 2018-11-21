@@ -3,7 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_height="match_parent"
     android:layout_width="match_parent"
-    android:layout_margin="16dp"
     tools:context=".WeekFragment"
     android:background="?android:windowBackground">
 
@@ -60,8 +59,10 @@
         android:layout_height="match_parent"
         android:layout_below="@+id/currentWeek"
         android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
         android:layout_marginStart="0dp"
         android:layout_marginTop="5dp"
+        android:layout_marginEnd="0dp"
         android:layout_marginBottom="3dp"
         android:paddingTop="1dp">
 
@@ -72,13 +73,13 @@
 
             <GridLayout
                 android:id="@+id/gridweektime"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:rowOrderPreserved="true"
-                android:rowCount="49"
-                android:columnOrderPreserved="true"
-                android:columnCount="1"
                 android:background="@color/black_color"
-                android:layout_width="wrap_content">
+                android:columnCount="1"
+                android:columnOrderPreserved="true"
+                android:rowCount="49"
+                android:rowOrderPreserved="true">
 
             </GridLayout>
 
@@ -88,13 +89,13 @@
 
                 <GridLayout
                     android:id="@+id/gridweek"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:rowOrderPreserved="true"
-                    android:rowCount="49"
-                    android:columnOrderPreserved="true"
-                    android:columnCount="7"
                     android:background="@color/black_color"
-                    android:layout_width="match_parent">
+                    android:columnCount="7"
+                    android:columnOrderPreserved="true"
+                    android:rowCount="49"
+                    android:rowOrderPreserved="true">
 
                 </GridLayout>
             </HorizontalScrollView>
