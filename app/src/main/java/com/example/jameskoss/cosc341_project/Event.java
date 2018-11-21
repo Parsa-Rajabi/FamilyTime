@@ -1,23 +1,28 @@
 package com.example.jameskoss.cosc341_project;
+
 import java.util.Date;
+import java.sql.Timestamp;
 
 public class Event {
-    private long id;
+    private String id;
     private String title;
     private Date startTime;
     private Date endTime;
-    private long recurringChainId;
+    private String recurringChainId;
     private int frequency;
+    private int repetitions;
     private String location;
     private String colour;
     private String note;
 
-    public Event ( long id, String title, Date startTime, Date endTime, long recurringChainId, int frequency, String location, String colour, String note ) {
+    public Event ( String id, String title, Date startTime, Date endTime, String recurringChainId,
+                   int frequency, int repetitions, String location, String colour, String note ) {
         this.id = id;
         this.title = title;
         this.startTime = startTime;
         this.endTime = endTime;
         this.recurringChainId = recurringChainId;
+        this.repetitions = repetitions;
         this.frequency = frequency;
         this.location = location;
         this.colour = colour;
@@ -25,7 +30,7 @@ public class Event {
 
     }
 
-    public long getId () {
+    public String getId () {
         return this.id;
     }
 
@@ -41,12 +46,16 @@ public class Event {
         return this.endTime;
     }
 
-    public long getRecurringChainId () {
+    public String getRecurringChainId () {
         return this.recurringChainId;
     }
 
     public int getFrequency() {
         return this.frequency;
+    }
+
+    public int getRepetitions() {
+        return this.repetitions;
     }
 
     public String getLocation() {
@@ -62,3 +71,4 @@ public class Event {
     }
 
 }
+
