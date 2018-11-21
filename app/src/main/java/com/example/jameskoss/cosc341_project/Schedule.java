@@ -77,7 +77,7 @@ public class Schedule {
                 param.setGravity(Gravity.FILL);
                 int st = getIndexForTime(start);
                 int en = getIndexForTime(end)-st;
-                //TODO: figure out how to detect days that span multiple days long
+                //TODO:left off here
                 param.columnSpec = GridLayout.spec(0,1,1f);
                 param.rowSpec = GridLayout.spec(i,1);
                 gridlayout.addView(btn, param);
