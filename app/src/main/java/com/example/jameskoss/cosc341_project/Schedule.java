@@ -8,6 +8,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.GridLayout;
+import android.widget.TextView;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -116,21 +117,23 @@ public class Schedule {
     public void testStuff(GridLayout gridlayout, Context c, int amt) {
         final float scale = c.getResources().getDisplayMetrics().density;
         for (int i = 0; i < amt; i++) {
-            Button btn = new Button(c);
-            btn.setId(View.generateViewId());
-            btn.setEllipsize(TextUtils.TruncateAt.END);
-            btn.setText(c.getResources().getString(R.string.event_title_format, "TestStuff"+i, "Test Location "+i));
-            btn.setBackgroundColor(Color.parseColor("#88dd88aa"));
+            //TODO: Change buttons to TextView so that its possible to more dynamically set its width/height in the gridlayout
+            TextView tv = new TextView(c);
+            tv.setId(View.generateViewId());
+            tv.setText(c.getResources().getString(R.string.event_title_format, "TestStuff"+i, "Test Location "+i));
+            tv.setBackgroundColor(Color.parseColor("#88dd88aa"));
             GridLayout.LayoutParams param = new GridLayout.LayoutParams();
             param.setGravity(Gravity.FILL);
             int startIdx = (int)Math.floor(Math.random()*40);
             int len = (int)Math.ceil(Math.random()*6);
             int pixels = (int) (5 * scale + 0.5f);
+            param.height = GridLayout.LayoutParams.MATCH_PARENT;
+            param.width = GridLayout.LayoutParams.WRAP_CONTENT;
             param.setMargins(pixels, pixels, pixels, pixels);
             param.columnSpec = GridLayout.spec(1, 1, 1f);
-            param.rowSpec = GridLayout.spec(startIdx, 4);
-            btn.setLayoutParams(param);
-            gridlayout.addView(btn);
+            param.rowSpec = GridLayout.spec(startIdx, len);
+            tv.setLayoutParams(param);
+            gridlayout.addView(tv);
         }
     }
 }
