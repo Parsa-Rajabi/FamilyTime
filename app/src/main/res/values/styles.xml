@@ -20,4 +20,5 @@
     
     <style name="RecurringDialogTheme" parent="Theme.AppCompat.Light.Dialog.Alert"></style>
 
+
 </resources>
