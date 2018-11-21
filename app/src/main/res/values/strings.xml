@@ -3,4 +3,39 @@
     <string name="action_settings">Settings</string>
     <string name="title_activity_day_view">DayView</string>
     <string name="title_activity_week_view">WeekView</string>
+
+    <!-- Rachelle's part of strings -->
+    <string name="event_titleLabel">Title:</string>
+    <string name="event_allDayLabel">All-Day:</string>
+    <string name="event_startLabel">Start:</string>
+    <string name="event_endLabel">End:</string>
+    <string name="event_timePlaceholder">hh:mm</string>
+    <string name="event_date">Date</string>
+    <string name="event_recurringLabel">Recurring:</string>
+    <string name="event_colourLabel">Colour:</string>
+    <string name="event_notesLabel">Notes:</string>
+    <string name="event_cancelBtnLabel">Cancel</string>
+    <string name="event_confirmBtnLabel">Confirm</string>
+    <string name="recurringpopup_label">Number of times this event recurs?</string>
+    <string name="event_notRecurringStatus">Does not repeat</string>
+    <string name="event_locationLabel">Location:</string>
+    <string name="event_deleteBtnLabel">Delete Event</string>
+
+    <string-array name="event_recurringEventSpinner">
+        <item>does not repeat</item>
+        <item>once a day</item>
+        <item>once a week</item>
+        <item>once a month</item>
+        <item>once a year</item>
+    </string-array>
+    <string-array name="event_twelveHourClockSpinner">
+        <item>am</item>
+        <item>pm</item>
+    </string-array>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <!-- end of Rachelle's part of strings -->
+
+
 </resources>
