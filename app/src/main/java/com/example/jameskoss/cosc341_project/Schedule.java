@@ -77,7 +77,7 @@ public class Schedule {
             e.printStackTrace();
         }
     }
-    public void printDay(Date day, GridLayout gridlayout, Context c, Application a) {
+    public void printDay(Date day, GridLayout gridlayout, int gridLayoutColIdx, int gridLayoutRowOffset, Context c, Application a) {
         final Context context = c;
         final Application applic = a;
         Log.v("printDay","printDay reached. Day:"+day.toString());
@@ -145,15 +145,26 @@ public class Schedule {
                 param.height = GridLayout.LayoutParams.MATCH_PARENT;
                 param.width = GridLayout.LayoutParams.WRAP_CONTENT;
                 param.setMargins(pixels,pixels,pixels,pixels);
-                param.columnSpec = GridLayout.spec(1,1,1f);
-                param.rowSpec = GridLayout.spec(startIdx,len);
+                param.columnSpec = GridLayout.spec(gridLayoutColIdx,1,1f);
+                param.rowSpec = GridLayout.spec(startIdx+gridLayoutRowOffset,len);
                 gridlayout.addView(btn, param);
+                Log.e("printDay","Row: "+(startIdx+gridLayoutRowOffset)+"; Col: "+gridLayoutColIdx);
             }
         }
     }
 
-    public void printWeek(Date sunday, GridLayout gridlayout, Context c) {
-
+    public void printWeek(Date sunday, GridLayout gridlayout, Context c, Application a) {
+        Log.v("printWeek","printWeek reached. Sunday:"+sunday.toString());
+        final float scale = c.getResources().getDisplayMetrics().density;
+        Log.e("printWeek","Events.size: "+events.size());
+        for (int i = 0; i < 7; i++) {
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(sunday);
+            cal.add(Calendar.DATE, i);
+            this.printDay(cal.getTime(),gridlayout,i,1,c,a);
+            Log.w("printWeek","Date printed: "+cal.getTime().toString());
+            Log.w("printWeek","Colidx: "+(i));
+        }
     }
 
     private int getIndexForTime(Date d) {
@@ -168,7 +179,6 @@ public class Schedule {
         final float scale = c.getResources().getDisplayMetrics().density;
         int len;
         for (int i = 0; i < amt; i++) {
-            //TODO: Change buttons to TextView so that its possible to more dynamically set its width/height in the gridlayout
             Button btn = new Button(c);
             btn.setId(View.generateViewId());
             btn.setText(c.getResources().getString(R.string.event_title_format, "TestStuff"+i, "Test Location "+i));

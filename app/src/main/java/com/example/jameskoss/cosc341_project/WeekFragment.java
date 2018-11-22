@@ -192,7 +192,9 @@ public class WeekFragment extends Fragment implements View.OnClickListener {
         }
         Schedule s = new Schedule("Mothership.txt", this.getActivity().getApplicationContext()); //TODO PASS IN USER SCHEDULE
         // s.createFromFile("data.txt"); // pass in the user schedule file, or put this file string in the constructor as its only argument
-        s.printWeek(new Date(), gridlayout, getContext());
+        Calendar c = Calendar.getInstance();
+        c.set(this.selectedYear,this.selectedMonth-1,this.sunday,0,0,0);
+        s.printWeek(c.getTime(), gridlayout, getContext(), this.getActivity().getApplication());
         //TODO see if these three lines of code were all that was needed??
 
         setDaysOfWeekView(v);

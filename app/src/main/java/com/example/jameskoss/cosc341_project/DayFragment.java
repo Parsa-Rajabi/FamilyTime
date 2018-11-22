@@ -99,12 +99,11 @@ public class DayFragment extends Fragment implements View.OnClickListener {
             gridlayout.addView(tv, param);
         }
 
-        Schedule s = new Schedule(); //TODO PASS IN USER SCHEDULE
+        Schedule s = new Schedule("Mothership.txt", this.getActivity().getApplicationContext()); //TODO PASS IN USER SCHEDULE
         // s.createFromFile("data.txt"); // pass in the user schedule file, or put this file string in the constructor as its only argument
-        s.createFromFile("Mothership.txt", this.getActivity().getApplicationContext());
         Calendar c = Calendar.getInstance();
-        c.set(this.selectedYear,this.selectedMonth-1,this.selectedDay-1,0,0,0);
-        s.printDay(c.getTime(), gridlayout, getContext(), this.getActivity().getApplication());
+        c.set(this.selectedYear,this.selectedMonth-1,this.selectedDay,0,0,0);
+        s.printDay(c.getTime(), gridlayout, 1, 0, getContext(), this.getActivity().getApplication());
         //TODO see if these three lines of code were all that was needed??
 
         ImageButton nextDayButton = v.findViewById(R.id.nextday);
