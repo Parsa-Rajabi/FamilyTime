@@ -9,6 +9,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.GridLayout;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -99,12 +100,7 @@ public class DayFragment extends Fragment implements View.OnClickListener {
             gridlayout.addView(tv, param);
         }
 
-        Schedule s = new Schedule("Mothership.txt", this.getActivity().getApplicationContext()); //TODO PASS IN USER SCHEDULE
-        // s.createFromFile("data.txt"); // pass in the user schedule file, or put this file string in the constructor as its only argument
-        Calendar c = Calendar.getInstance();
-        c.set(this.selectedYear,this.selectedMonth-1,this.selectedDay,0,0,0);
-        s.printDay(c.getTime(), gridlayout, 1, 0, getContext(), this.getActivity().getApplication());
-        //TODO see if these three lines of code were all that was needed??
+
 
         ImageButton nextDayButton = v.findViewById(R.id.nextday);
         ImageButton prevDayButton = v.findViewById(R.id.previousday);
@@ -118,6 +114,29 @@ public class DayFragment extends Fragment implements View.OnClickListener {
 
         return v;
     }
+
+    @Override
+    public void onResume() {
+        GridLayout gridlayout = getActivity().findViewById(R.id.gridday);
+
+        for(int i = 0; i < gridlayout.getChildCount(); i++){
+            View v = gridlayout.getChildAt(i);
+            if(v instanceof Button){
+                gridlayout.removeViewAt(i);
+            }
+
+        }
+
+        Schedule s = new Schedule("Mothership.txt", this.getActivity().getApplicationContext()); //TODO PASS IN USER SCHEDULE
+        // s.createFromFile("data.txt"); // pass in the user schedule file, or put this file string in the constructor as its only argument
+        Calendar c = Calendar.getInstance();
+        c.set(this.selectedYear,this.selectedMonth-1,this.selectedDay,0,0,0);
+        s.printDay(c.getTime(), gridlayout, 1, 0, getContext(), this.getActivity().getApplication());
+        //TODO see if these three lines of code were all that was needed??
+
+        super.onResume();
+    }
+
 
     @Override
     public void onClick(View v) {

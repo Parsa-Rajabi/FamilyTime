@@ -140,10 +140,9 @@ public class Schedule {
                 if (cd.get(Calendar.DAY_OF_YEAR) == ce.get(Calendar.DAY_OF_YEAR) && cd.get(Calendar.YEAR) == ce.get(Calendar.YEAR)) {
                     endIdx = getIndexForTime(end);
                 }
-                int len = endIdx - startIdx + 1;
+                int len = endIdx - startIdx;
                 int pixels = (int) (5 * scale + 0.5f);
-                param.height = GridLayout.LayoutParams.MATCH_PARENT;
-                param.width = GridLayout.LayoutParams.WRAP_CONTENT;
+                btn.setHeight(500);
                 param.setMargins(pixels,pixels,pixels,pixels);
                 param.columnSpec = GridLayout.spec(gridLayoutColIdx,1,1f);
                 param.rowSpec = GridLayout.spec(startIdx+gridLayoutRowOffset,len);

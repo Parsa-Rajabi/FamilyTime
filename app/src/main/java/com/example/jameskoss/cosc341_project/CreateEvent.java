@@ -6,8 +6,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -21,21 +21,17 @@ import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOError;
-import java.io.IOException;
-import java.sql.Array;
-import java.sql.Timestamp;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 
 public class CreateEvent extends AppCompatActivity implements RecurringDialog.RecurringDialogListener {
 
@@ -1220,5 +1216,11 @@ public class CreateEvent extends AppCompatActivity implements RecurringDialog.Re
         }
 
         return eventList;
+    }
+
+    @Override
+    public void onBackPressed() {
+        findViewById(R.id.event_cancelBtn).performClick();
+        super.onBackPressed();
     }
 }
