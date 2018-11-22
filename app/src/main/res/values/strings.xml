@@ -33,7 +33,7 @@
         <item>pm</item>
     </string-array>
     <!-- end of Rachelle's part of strings -->
-    <string name="event_title_format">%s\n%s</string>
+    <string name="event_title_format">%s%s</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 

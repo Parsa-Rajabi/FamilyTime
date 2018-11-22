@@ -127,7 +127,7 @@ public class CreateEvent extends AppCompatActivity implements RecurringDialog.Re
     if timestamp is not -1, then I have to find
      */
     private void updateFile (String timeStamp) {
-        String scheduleFileName = "test.txt";
+        String scheduleFileName = username + ".txt";
 
         File scheduleFile = new File(getApplicationContext().getFilesDir(), scheduleFileName);
         File tempFile = new File(getApplicationContext().getFilesDir(),"temp.txt");

@@ -13,6 +13,8 @@ import android.widget.GridLayout;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import java.io.File;
+import java.util.Calendar;
 import java.util.Date;
 
 
@@ -74,7 +76,7 @@ public class DayFragment extends Fragment implements View.OnClickListener {
             tv.setPadding(5,5,5,5);
             tv.setBackgroundColor(getContext().getColor(R.color.white_color));
             GridLayout.LayoutParams param = new GridLayout.LayoutParams();
-            param.height = GridLayout.LayoutParams.WRAP_CONTENT;
+            param.height = GridLayout.LayoutParams.MATCH_PARENT;
             param.width = GridLayout.LayoutParams.WRAP_CONTENT;
             param.rightMargin = 1;
             param.topMargin = ((i+1)%2)+1; // oscillate between 2dp and 1dp top margin
@@ -88,7 +90,7 @@ public class DayFragment extends Fragment implements View.OnClickListener {
             tv.setPadding(5,5,5,5);
             tv.setBackgroundColor(getContext().getColor(R.color.white_color));
             param = new GridLayout.LayoutParams();
-            param.height = GridLayout.LayoutParams.WRAP_CONTENT;
+            param.height = GridLayout.LayoutParams.MATCH_PARENT;
             param.width = GridLayout.LayoutParams.WRAP_CONTENT;
             param.topMargin = ((i+1)%2)+1; // oscillate between 2dp and 1dp top margin
             param.setGravity(Gravity.FILL);
@@ -97,10 +99,12 @@ public class DayFragment extends Fragment implements View.OnClickListener {
             gridlayout.addView(tv, param);
         }
 
-        Schedule s = new Schedule("Mothership.txt"); //TODO PASS IN USER SCHEDULE
+        Schedule s = new Schedule(); //TODO PASS IN USER SCHEDULE
         // s.createFromFile("data.txt"); // pass in the user schedule file, or put this file string in the constructor as its only argument
-        s.printDay(new Date(), gridlayout, getContext());
-        s.testStuff(gridlayout, getContext(), 3);
+        s.createFromFile("Mothership.txt", this.getActivity().getApplicationContext());
+        Calendar c = Calendar.getInstance();
+        c.set(this.selectedYear,this.selectedMonth-1,this.selectedDay-1,0,0,0);
+        s.printDay(c.getTime(), gridlayout, getContext(), this.getActivity().getApplication());
         //TODO see if these three lines of code were all that was needed??
 
         ImageButton nextDayButton = v.findViewById(R.id.nextday);

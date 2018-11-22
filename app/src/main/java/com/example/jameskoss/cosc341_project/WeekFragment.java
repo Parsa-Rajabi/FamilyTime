@@ -190,7 +190,7 @@ public class WeekFragment extends Fragment implements View.OnClickListener {
                 }
             }
         }
-        Schedule s = new Schedule("Mothership.txt"); //TODO PASS IN USER SCHEDULE
+        Schedule s = new Schedule("Mothership.txt", this.getActivity().getApplicationContext()); //TODO PASS IN USER SCHEDULE
         // s.createFromFile("data.txt"); // pass in the user schedule file, or put this file string in the constructor as its only argument
         s.printWeek(new Date(), gridlayout, getContext());
         //TODO see if these three lines of code were all that was needed??
