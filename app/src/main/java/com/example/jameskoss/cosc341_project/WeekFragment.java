@@ -10,6 +10,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.GridLayout;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -190,12 +191,6 @@ public class WeekFragment extends Fragment implements View.OnClickListener {
                 }
             }
         }
-        Schedule s = new Schedule("Mothership.txt", this.getActivity().getApplicationContext()); //TODO PASS IN USER SCHEDULE
-        // s.createFromFile("data.txt"); // pass in the user schedule file, or put this file string in the constructor as its only argument
-        Calendar c = Calendar.getInstance();
-        c.set(this.selectedYear,this.selectedMonth-1,this.sunday,0,0,0);
-        s.printWeek(c.getTime(), gridlayout, getContext(), this.getActivity().getApplication());
-        //TODO see if these three lines of code were all that was needed??
 
         setDaysOfWeekView(v);
 
@@ -210,6 +205,29 @@ public class WeekFragment extends Fragment implements View.OnClickListener {
 
 
         return v;
+    }
+
+    @Override
+    public void onResume() {
+
+        GridLayout gridlayout = getActivity().findViewById(R.id.gridweektime);
+
+        for(int i = 0; i < gridlayout.getChildCount(); i++){
+            View v = gridlayout.getChildAt(i);
+            if(v instanceof Button){
+                gridlayout.removeViewAt(i);
+            }
+
+        }
+
+        Schedule s = new Schedule("Mothership.txt", this.getActivity().getApplicationContext()); //TODO PASS IN USER SCHEDULE
+        // s.createFromFile("data.txt"); // pass in the user schedule file, or put this file string in the constructor as its only argument
+        Calendar c = Calendar.getInstance();
+        c.set(this.selectedYear,this.selectedMonth-1,this.sunday,0,0,0);
+        s.printWeek(c.getTime(), gridlayout, getContext(), this.getActivity().getApplication());
+        //TODO see if these three lines of code were all that was needed??
+
+        super.onResume();
     }
 
     @Override

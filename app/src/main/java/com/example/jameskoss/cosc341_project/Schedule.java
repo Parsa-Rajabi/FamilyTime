@@ -142,12 +142,20 @@ public class Schedule {
                 }
                 int len = endIdx - startIdx;
                 int pixels = (int) (5 * scale + 0.5f);
-                btn.setHeight(500);
+                int sampleHeight = gridlayout.getChildAt(20).getHeight(); //grab a sample textview for the height;
+                Log.e("printDay", "sampleHeight: "+sampleHeight);
+                if (sampleHeight <= 0) sampleHeight = 67;
+                int newHeight = sampleHeight*len - pixels*2 + len/2;
+                Log.e("printDay", "newHeight: "+newHeight);
+                if (newHeight < 0) newHeight = 0;
+                Log.e("printDay", "newHeightFinal: "+newHeight);
+                btn.setHeight(newHeight);
                 param.setMargins(pixels,pixels,pixels,pixels);
                 param.columnSpec = GridLayout.spec(gridLayoutColIdx,1,1f);
                 param.rowSpec = GridLayout.spec(startIdx+gridLayoutRowOffset,len);
-                gridlayout.addView(btn, param);
+                Log.e("printDay", "Columns available: "+gridlayout.getColumnCount());
                 Log.e("printDay","Row: "+(startIdx+gridLayoutRowOffset)+"; Col: "+gridLayoutColIdx);
+                gridlayout.addView(btn, param);
             }
         }
     }

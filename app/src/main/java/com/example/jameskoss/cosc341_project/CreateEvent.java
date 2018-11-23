@@ -59,22 +59,22 @@ public class CreateEvent extends AppCompatActivity implements RecurringDialog.Re
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_event);
         // TODO: set up receiving intent and bundle
-//        Intent calendarViewIntent = getIntent();
-//        Bundle calendarViewBundle = calendarViewIntent.getExtras();
-//        String date = calendarViewBundle.getString("date");
-//        present = calendarViewBundle.getBoolean("present");
-//        eventTimestamp = calendarViewBundle.getString("timestamp");        //if we are gonna edit an event, will equal -1 if we are creating new event
-//        username = calendarViewBundle.getString("username");     //TESTING
+        Intent calendarViewIntent = getIntent();
+        Bundle calendarViewBundle = calendarViewIntent.getExtras();
+        String date = calendarViewBundle.getString("date");
+        present = calendarViewBundle.getBoolean("present");
+        eventTimestamp = calendarViewBundle.getString("timestamp");        //if we are gonna edit an event, will equal -1 if we are creating new event
+        username = calendarViewBundle.getString("username");     //TESTING
 
-        eventTimestamp = "-1";
-        date = new GregorianCalendar(2018,10,11).getTime(); //purely for testing purposes
-        username = "Mothership";
-//        try {
-//            this.date = dateFormat.parse(date);
-//        }
-//        catch(ParseException e) {
-//            sendToast("cannot create date object");
-//        }
+//        eventTimestamp = "-1";
+//        date = new GregorianCalendar(2018,10,11).getTime(); //purely for testing purposes
+//        username = "Mothership";
+        try {
+            this.date = dateFormat.parse(date);
+        }
+        catch(ParseException e) {
+            sendToast("cannot create date object");
+        }
 
         //sets initial colour to button
         this.colour = "#ffff00";
@@ -177,7 +177,7 @@ public class CreateEvent extends AppCompatActivity implements RecurringDialog.Re
 
 
             boolean successful = tempFile.renameTo(scheduleFile);
-            sendToast(successful + "");
+//            sendToast(successful + "");
         }
         catch (IOException e) {
             sendToast("cannot write to file");
@@ -254,6 +254,7 @@ public class CreateEvent extends AppCompatActivity implements RecurringDialog.Re
         }
 
         colourButton.setBackgroundColor(Color.parseColor(event.get(8)));
+        this.colour = event.get(8);
 
         if ( isEmpty(event.get(9)) ) {
             notesEditText.setText("");
