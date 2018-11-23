@@ -43,7 +43,7 @@ public class ColourPop extends Activity {
             public void onClick(View v) {
                 //create intent with hexadecimal code
                 Intent intent = makeIntent();
-                intent.putExtra("hexacode", R.color.sunshineYellow);
+                intent.putExtra("hashMapCode", 1);
                 setResult(Activity.RESULT_OK, intent);
                 finish();
             }
@@ -56,7 +56,7 @@ public class ColourPop extends Activity {
             @Override
             public void onClick(View v) {
                 Intent intent = makeIntent();
-                intent.putExtra("hexacode", R.color.bloodOfYourEnemies);
+                intent.putExtra("hashMapCode", 2);
                 setResult(Activity.RESULT_OK, intent);
                 finish();
             }
@@ -69,7 +69,7 @@ public class ColourPop extends Activity {
             @Override
             public void onClick(View v) {
                 Intent intent = makeIntent();
-                intent.putExtra("hexacode", R.color.myTearsBlue);
+                intent.putExtra("hashMapCode", 3);
                 setResult(Activity.RESULT_OK, intent);
                 finish();
             }
@@ -82,7 +82,7 @@ public class ColourPop extends Activity {
             @Override
             public void onClick(View v) {
                 Intent intent = makeIntent();
-                intent.putExtra("hexacode", R.color.ProfessorUmbridgePink);
+                intent.putExtra("hashMapCode", 4);
                 setResult(Activity.RESULT_OK, intent);
                 finish();
             }
@@ -95,7 +95,7 @@ public class ColourPop extends Activity {
             @Override
             public void onClick(View v) {
                 Intent intent = makeIntent();
-                intent.putExtra("hexacode", R.color.itsSalmonNotPink);
+                intent.putExtra("hashMapCode", 5);
                 setResult(Activity.RESULT_OK, intent);
                 finish();
             }
@@ -108,7 +108,7 @@ public class ColourPop extends Activity {
             @Override
             public void onClick(View v) {
                 Intent intent = makeIntent();
-                intent.putExtra("hexacode", R.color.GoHolland);
+                intent.putExtra("hashMapCode", 6);
                 setResult(Activity.RESULT_OK, intent);
                 finish();
             }
@@ -121,7 +121,7 @@ public class ColourPop extends Activity {
             @Override
             public void onClick(View v) {
                 Intent intent = makeIntent();
-                intent.putExtra("hexacode", R.color.LakeLouiseTurquoise);
+                intent.putExtra("hashMapCode", 7);
                 setResult(Activity.RESULT_OK, intent);
                 finish();
             }
@@ -134,7 +134,7 @@ public class ColourPop extends Activity {
             @Override
             public void onClick(View v) {
                 Intent intent = makeIntent();
-                intent.putExtra("hexacode", R.color.healthyLawnGreen);
+                intent.putExtra("hashMapCode", 8);
                 setResult(Activity.RESULT_OK, intent);
                 finish();
             }
@@ -147,7 +147,7 @@ public class ColourPop extends Activity {
             @Override
             public void onClick(View v) {
                 Intent intent = makeIntent();
-                intent.putExtra("hexacode", R.color.Lilac);
+                intent.putExtra("hashMapCode", 9);
                 setResult(Activity.RESULT_OK, intent);
                 finish();
             }
@@ -160,7 +160,7 @@ public class ColourPop extends Activity {
             @Override
             public void onClick(View v) {
                 Intent intent = makeIntent();
-                intent.putExtra("hexacode", R.color.slightlyAggressiveBlue);
+                intent.putExtra("hashMapCode", 10);
                 setResult(Activity.RESULT_OK, intent);
                 finish();
             }

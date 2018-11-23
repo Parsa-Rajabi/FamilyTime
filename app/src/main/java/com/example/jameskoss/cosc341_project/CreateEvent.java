@@ -36,6 +36,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
 
 public class CreateEvent extends AppCompatActivity implements RecurringDialog.RecurringDialogListener {
 
@@ -61,21 +62,22 @@ public class CreateEvent extends AppCompatActivity implements RecurringDialog.Re
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_event);
         // TODO: set up receiving intent and bundle
-        Intent calendarViewIntent = getIntent();
-        Bundle calendarViewBundle = calendarViewIntent.getExtras();
-        String date = calendarViewBundle.getString("date");
-        present = calendarViewBundle.getBoolean("present");
-        eventTimestamp = calendarViewBundle.getString("timestamp");        //if we are gonna edit an event, will equal -1 if we are creating new event
-//        eventTimestamp = "-1";
-//        date = new GregorianCalendar(2018,10,11).getTime(); //purely for testing purposes
-//        username = "test";
-        username = calendarViewBundle.getString("username");     //TESTING
-        try {
-            this.date = dateFormat.parse(date);
-        }
-        catch(ParseException e) {
-            sendToast("cannot create date object");
-        }
+//        Intent calendarViewIntent = getIntent();
+//        Bundle calendarViewBundle = calendarViewIntent.getExtras();
+//        String date = calendarViewBundle.getString("date");
+//        present = calendarViewBundle.getBoolean("present");
+//        eventTimestamp = calendarViewBundle.getString("timestamp");        //if we are gonna edit an event, will equal -1 if we are creating new event
+//        username = calendarViewBundle.getString("username");     //TESTING
+
+        eventTimestamp = "-1";
+        date = new GregorianCalendar(2018,10,11).getTime(); //purely for testing purposes
+        username = "test";
+//        try {
+//            this.date = dateFormat.parse(date);
+//        }
+//        catch(ParseException e) {
+//            sendToast("cannot create date object");
+//        }
 
         //sets initial colour to button
         this.colour = "#ffff00";
@@ -789,51 +791,24 @@ public class CreateEvent extends AppCompatActivity implements RecurringDialog.Re
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
         Button colourButton = findViewById(R.id.event_colourButton);
 
+        HashMap<Integer, String> hashMap = new HashMap<Integer,String>();
+        hashMap.put(0, "#ffff00");
+        hashMap.put(1, "#ffff00");
+        hashMap.put(2, "#ff0000");
+        hashMap.put(3, "#3333ff");
+        hashMap.put(4, "#ff3399");
+        hashMap.put(5, "#ff5050");
+        hashMap.put(6, "#ff6600");
+        hashMap.put(7, "#85e0e0");
+        hashMap.put(8, "#33cc33");
+        hashMap.put(9, "#cc0099");
+        hashMap.put(10,"#006699");
+
         if ( requestCode == 1 ) {
             if( resultCode == Activity.RESULT_OK ) {
-                int colour = intent.getIntExtra("hexacode",0);
-                String strColour = colour + "";
-                
-                if ( strColour.equals("2131099779") ) {
-                    colourButton.setBackgroundColor(Color.parseColor("#ffff00"));
-                    this.colour = "#ffff00";
-                }
-                else if ( strColour.equals("2131099682")) {
-                    colourButton.setBackgroundColor(Color.parseColor("#ff0000"));
-                    this.colour = "#ff0000";
-                }
-                else if ( strColour.equals("2131099761") ) {
-                    colourButton.setBackgroundColor(Color.parseColor("#3333ff"));
-                    this.colour = "#3333ff";
-                }
-                else if ( strColour.equals("2131099651") ) {
-                    colourButton.setBackgroundColor(Color.parseColor("#ff3399"));
-                    this.colour = "#ff3399";
-                }
-                else if ( strColour.equals("2131099722") ) {
-                    colourButton.setBackgroundColor(Color.parseColor("#ff5050"));
-                    this.colour = "#ff3399";
-                }
-                else if ( strColour.equals("2131099648") ) {
-                    colourButton.setBackgroundColor(Color.parseColor("#ff6600"));
-                    this.colour = "#ff6600";
-                }
-                else if ( strColour.equals("2131099649") ) {
-                    colourButton.setBackgroundColor(Color.parseColor("#85e0e0"));
-                    this.colour = "#85e0e0";
-                }
-                else if ( strColour.equals("2131099719") ) {
-                    colourButton.setBackgroundColor(Color.parseColor("#33cc33"));
-                    this.colour = "#33cc33";
-                }
-                else if ( strColour.equals("2131099650") ) {
-                    colourButton.setBackgroundColor(Color.parseColor("#cc0099"));
-                    this.colour = "#cc0099";
-                }
-                else if ( strColour.equals("2131099778") ) {
-                    colourButton.setBackgroundColor(Color.parseColor("#006699"));
-                    this.colour = "#006699";
-                }
+                int colour = intent.getIntExtra("hashMapCode",0);
+                colourButton.setBackgroundColor(Color.parseColor(hashMap.get(colour)));
+                this.colour = hashMap.get(colour);
             }
         }
     }
