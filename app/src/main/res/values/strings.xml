@@ -101,4 +101,6 @@
         <item>Saturday</item>
     </string-array>
 
+    <string name="popupNoFileError">Sorry, it looks like no\nschedules exist on your device!</string>
+
 </resources>

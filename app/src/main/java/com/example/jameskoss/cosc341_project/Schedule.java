@@ -30,17 +30,17 @@ import java.util.Date;
 
 public class Schedule {
     private ArrayList<Event> events;
-    public Schedule() {
+    private Schedule() {
         events = new ArrayList<Event>();
     }
-    public Schedule(String filename, Context ac) {
+    Schedule(String filename, Context ac) {
         this();
         this.createFromFile(filename, ac);
     }
     public ArrayList<Event> getEvents() {
         return events;
     }
-    public void createFromFile(String file, Context ac) {
+    private void createFromFile(String file, Context ac) {
         Log.w("createFromFile","createFromFile reached. Filename: "+file);
         String line;
         try {
@@ -77,7 +77,7 @@ public class Schedule {
             e.printStackTrace();
         }
     }
-    public void printDay(Date day, GridLayout gridlayout, int gridLayoutColIdx, int gridLayoutRowOffset, Context c, Application a) {
+    void printDay(Date day, GridLayout gridlayout, int gridLayoutColIdx, int gridLayoutRowOffset, Context c, Application a) {
         final Context context = c;
         final Application applic = a;
         Log.v("printDay","printDay reached. Day:"+day.toString());
@@ -159,9 +159,8 @@ public class Schedule {
         }
     }
 
-    public void printWeek(Date sunday, GridLayout gridlayout, Context c, Application a) {
+    void printWeek(Date sunday, GridLayout gridlayout, Context c, Application a) {
         Log.v("printWeek","printWeek reached. Sunday:"+sunday.toString());
-        final float scale = c.getResources().getDisplayMetrics().density;
         Log.e("printWeek","Events.size: "+events.size());
         for (int i = 0; i < 7; i++) {
             Calendar cal = Calendar.getInstance();
@@ -180,31 +179,5 @@ public class Schedule {
         int minute = c.get(Calendar.MINUTE);
         return (hour*2) + (minute/30);
         //NOTE: Returns an int from 0 to 47 inclusive based on passed date
-    }
-    public void testStuff(GridLayout gridlayout, Context c, int amt) {
-        final float scale = c.getResources().getDisplayMetrics().density;
-        int len;
-        for (int i = 0; i < amt; i++) {
-            Button btn = new Button(c);
-            btn.setId(View.generateViewId());
-            btn.setText(c.getResources().getString(R.string.event_title_format, "TestStuff"+i, "Test Location "+i));
-            btn.setBackgroundResource(R.drawable.eventblob);
-            GradientDrawable gd = (GradientDrawable)btn.getBackground();
-            gd.setColor(Color.parseColor("#88dd88aa"));
-            GridLayout.LayoutParams param = new GridLayout.LayoutParams();
-            param.setGravity(Gravity.CLIP_HORIZONTAL);
-            int startIdx = (int)Math.floor(Math.random()*40);
-            len = (int)Math.ceil(Math.random()*6);
-            int pixels = (int) (5 * scale + 0.5f);
-            btn.setPadding(pixels,pixels,pixels,pixels);
-            btn.setMaxHeight((int)(10 * scale + 0.5f));
-            param.height = GridLayout.LayoutParams.MATCH_PARENT;
-            param.width = GridLayout.LayoutParams.WRAP_CONTENT;
-            param.setMargins(pixels, pixels, pixels, pixels);
-            param.columnSpec = GridLayout.spec(1, 1, 1f);
-            param.rowSpec = GridLayout.spec(startIdx, len, 1f);
-            btn.setLayoutParams(param);
-            gridlayout.addView(btn);
-        }
     }
 }
