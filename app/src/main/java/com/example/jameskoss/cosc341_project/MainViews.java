@@ -151,7 +151,6 @@ public class MainViews extends FragmentActivity {
 //            } catch (ParseException e) {
 //                e.printStackTrace();
 //            }
-            Toast.makeText(getApplicationContext(), "We got past the parsa", Toast.LENGTH_SHORT).show();
         Date todayDate = new Date();
 
         String dateToPass = sdf.format(todayDate);
@@ -168,8 +167,10 @@ public class MainViews extends FragmentActivity {
             i.putExtras(b);
             startActivity(i);
         }
-//        catch(ParseException e) {
-//
-//        }
+
+        public void performOverlays(View v) {
+            Intent i = new Intent(getApplicationContext(), OverlayPopup.class);
+            startActivity(i);
+        }
 }
 
