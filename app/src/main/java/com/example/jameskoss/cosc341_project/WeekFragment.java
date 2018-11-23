@@ -210,7 +210,7 @@ public class WeekFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onResume() {
 
-        GridLayout gridlayout = getActivity().findViewById(R.id.gridweektime);
+        GridLayout gridlayout = getActivity().findViewById(R.id.gridweek);
 
         for(int i = 0; i < gridlayout.getChildCount(); i++){
             View v = gridlayout.getChildAt(i);
