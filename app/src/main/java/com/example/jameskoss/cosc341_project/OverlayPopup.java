@@ -53,6 +53,7 @@ public class OverlayPopup extends AppCompatActivity {
                     state.put(key, false);
                 }
             }
+            colourKey++;
             LinearLayout subll = new LinearLayout(this);
             subll.setOrientation(LinearLayout.HORIZONTAL);
             ll.addView(subll);
