@@ -149,7 +149,7 @@
 
     <TextView
         android:id="@+id/event_startDate"
-        android:layout_width="149dp"
+        android:layout_width="118dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="11dp"
@@ -160,7 +160,7 @@
 
     <TextView
         android:id="@+id/event_endDate"
-        android:layout_width="153dp"
+        android:layout_width="116dp"
         android:layout_height="27dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="37dp"
@@ -195,7 +195,7 @@
 
     <Spinner
         android:id="@+id/event_startSpinner"
-        android:layout_width="65dp"
+        android:layout_width="99dp"
         android:layout_height="26dp"
         android:layout_marginTop="51dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -203,7 +203,7 @@
 
     <Spinner
         android:id="@+id/event_endSpinner"
-        android:layout_width="63dp"
+        android:layout_width="98dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="41dp"
         app:layout_constraintEnd_toEndOf="parent"

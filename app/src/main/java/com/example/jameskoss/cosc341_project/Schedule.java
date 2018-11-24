@@ -77,6 +77,20 @@ public class Schedule {
                         cs.setTime(new SimpleDateFormat("MM/dd/yyy hh:mm a").parse(eventData[2]));
                         ce.setTime(new SimpleDateFormat("MM/dd/yyy hh:mm a").parse(eventData[3]));
                         switch(recursionLevel) {
+//                            case 0: //daily
+//                                modifier = Calendar.DATE;
+//                                break;
+//                            case 1: //weekly
+//                                modifier = Calendar.DATE;
+//                                mod2 = 7;
+//                                break;
+//                            case 2: //monthly
+//                                modifier = Calendar.MONTH;
+//                                break;
+//                            case 3: //annually
+//                                modifier = Calendar.YEAR;
+//                                break;
+                            //RACHELLE'S CODE, changed the value of the case statements by +1
                             case 1: //daily
                                 modifier = Calendar.DATE;
                                 break;
@@ -163,7 +177,8 @@ public class Schedule {
                         b.putString("timestamp",timestamp);
                         b.putString("username", "Mothership");
                         i.putExtras(b);
-                        applic.startActivity(i);
+//                        applic.startActivity(i);
+                        context.startActivity(i);       //RACHELLE CHANGED THIS LINE
                     }
                 });
                 GradientDrawable gd = (GradientDrawable)btn.getBackground();

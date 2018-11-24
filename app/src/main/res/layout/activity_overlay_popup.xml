@@ -15,8 +15,9 @@
         android:clickable="true"
         android:onClick="saveEvents"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/checkmark" />
+        app:layout_constraintEnd_toEndOf="parent"/>
+        <!--app:srcCompat="@drawable/checkmark" -->
+
 
     <ScrollView
         android:layout_width="match_parent"
