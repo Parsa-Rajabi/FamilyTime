@@ -73,6 +73,7 @@
             android:rowCount="48"
             android:columnOrderPreserved="true"
             android:columnCount="2"
+            android:alignmentMode="alignMargins"
             android:background="@color/black_color"
             android:layout_width="match_parent">
 

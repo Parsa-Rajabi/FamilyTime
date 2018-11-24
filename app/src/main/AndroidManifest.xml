@@ -19,25 +19,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity
-            android:name=".DayView"
-            android:label="@string/title_activity_day_view"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".WeekView"
-            android:label="@string/title_activity_week_view"
-            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".CreateEvent"
-            android:exported="true">
-        </activity>
+            android:exported="true" />
+        <activity android:name=".ColourPop" />
+        <!-- <activity android:name=".RecurringDialog" /> -->
 
-            <activity
-                android:name=".ColourPop"/>
-        <!--<activity android:name=".RecurringDialog" />-->
-
-
+        <activity android:name=".OverlayPopup" />
     </application>
 
 </manifest>

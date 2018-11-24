@@ -5,15 +5,23 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.GridLayout;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.ObjectInputStream;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 
 
 public class DayFragment extends Fragment implements View.OnClickListener {
@@ -28,6 +36,7 @@ public class DayFragment extends Fragment implements View.OnClickListener {
     String currentYear; //initial year on load;
     String selectedDate;
     TextView dayViewDayText;
+    HashMap<String, Boolean> state;
 
 
     public DayFragment() {
@@ -72,9 +81,9 @@ public class DayFragment extends Fragment implements View.OnClickListener {
             tv.setId(View.generateViewId());
             tv.setText(times[i]);
             tv.setPadding(5,5,5,5);
-            tv.setBackgroundColor(getResources().getColor(R.color.white_color));
+            tv.setBackgroundColor(getContext().getColor(R.color.white_color));
             GridLayout.LayoutParams param = new GridLayout.LayoutParams();
-            param.height = GridLayout.LayoutParams.WRAP_CONTENT;
+            param.height = GridLayout.LayoutParams.MATCH_PARENT;
             param.width = GridLayout.LayoutParams.WRAP_CONTENT;
             param.rightMargin = 1;
             param.topMargin = ((i+1)%2)+1; // oscillate between 2dp and 1dp top margin
@@ -86,9 +95,9 @@ public class DayFragment extends Fragment implements View.OnClickListener {
             tv = new TextView(getContext());
             tv.setId(View.generateViewId());
             tv.setPadding(5,5,5,5);
-            tv.setBackgroundColor(getResources().getColor(R.color.white_color));
+            tv.setBackgroundColor(getContext().getColor(R.color.white_color));
             param = new GridLayout.LayoutParams();
-            param.height = GridLayout.LayoutParams.WRAP_CONTENT;
+            param.height = GridLayout.LayoutParams.MATCH_PARENT;
             param.width = GridLayout.LayoutParams.WRAP_CONTENT;
             param.topMargin = ((i+1)%2)+1; // oscillate between 2dp and 1dp top margin
             param.setGravity(Gravity.FILL);
@@ -97,11 +106,7 @@ public class DayFragment extends Fragment implements View.OnClickListener {
             gridlayout.addView(tv, param);
         }
 
-        Schedule s = new Schedule(); //TODO PASS IN USER SCHEDULE
-        s.generateTestSchedule();
-        // s.createFromFile("data.txt"); // pass in the user schedule file, or put this file string in the constructor as its only argument
-        s.printDay(new Date(), gridlayout, getContext());
-        //TODO see if these three lines of code were all that was needed??
+
 
         ImageButton nextDayButton = v.findViewById(R.id.nextday);
         ImageButton prevDayButton = v.findViewById(R.id.previousday);
@@ -115,6 +120,64 @@ public class DayFragment extends Fragment implements View.OnClickListener {
 
         return v;
     }
+
+    @Override
+    public void onResume() {
+        GridLayout gridlayout = getActivity().findViewById(R.id.gridday);
+
+        int numChilds = gridlayout.getChildCount();
+        boolean doBreak = false;
+        int childIdx = 0;
+        while (!doBreak) {
+            View v = gridlayout.getChildAt(childIdx);
+            if(v instanceof Button){
+                gridlayout.removeView(v);
+            } else {
+                childIdx++;
+            }
+            if (childIdx == numChilds) doBreak = true;
+        }
+
+        this.state = readState();
+        Log.e("DayView.onResume","Hashmap: "+this.state.toString());
+
+        this.state = readState();
+        Log.e("DayFragment.onResume","state: "+this.state.toString());
+
+        File[] files = getScheduleFiles();
+        Log.e("DayFragment.onResume","Files found: "+files.length);
+        int i = 0;
+        int numDisplayed = 0;
+        for (File f: files) {
+            String key = f.getName().substring(0,f.getName().length()-4);
+            if (this.state.containsKey(key)) {
+                if (this.state.get(key)) numDisplayed++;
+            }
+        }
+        for (File f: files) {
+            String key = f.getName().substring(0,f.getName().length()-4);
+            Log.e("DayFragment.onResume","File found: "+f+"; Cut to: "+key);
+            if (this.state == null) this.state = new HashMap<String, Boolean>();
+            if (!this.state.containsKey(key)) {
+                if (key.equals("Mothership")) {
+                    this.state.put(key,true);
+                } else {
+                    this.state.put(key,false);
+                }
+            }
+            if (this.state.get(key)) {
+                Schedule s = new Schedule(f.getName(), this.getActivity().getApplicationContext(), (numDisplayed>1?i:-1));
+                // s.createFromFile("data.txt"); // pass in the user schedule file, or put this file string in the constructor as its only argument
+                Calendar c = Calendar.getInstance();
+                c.set(this.selectedYear,this.selectedMonth-1,this.selectedDay,0,0,0);
+                s.printDay(c.getTime(), gridlayout, 1, 0, getContext(), this.getActivity().getApplication());
+            }
+            i++;
+        }
+
+        super.onResume();
+    }
+
 
     @Override
     public void onClick(View v) {
@@ -364,6 +427,34 @@ public class DayFragment extends Fragment implements View.OnClickListener {
                 setPrevVariables(mont, 30, selectedWeekday, selectedDay, selectedYear);
                 break;
         }
+    }
+
+    public HashMap<String, Boolean> readState() {
+        File f = new File(getActivity().getApplication().getFilesDir(), "statedata");
+        Log.e("DayFragment.readState","File exists: "+f.exists());
+        if (f.exists()) {
+            try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(f))) {
+                Log.e("DayFragment.readState","Hashmap Found!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                return (HashMap<String, Boolean>)ois.readObject();
+            } catch (Exception e) {
+                return new HashMap<>();
+            }
+        } else {
+            return new HashMap<>();
+        }
+    }
+
+    private File[] getScheduleFiles() {
+        File fileDir = getActivity().getApplication().getFilesDir();
+        File[] listOfFiles = fileDir.listFiles();
+        ArrayList<File> al = new ArrayList<>();
+        for (File f: listOfFiles) {
+            if (f.getName().endsWith(".txt")) {
+                al.add(f);
+            }
+        }
+        File[] files = new File[al.size()];
+        return al.toArray(files);
     }
 
 }
