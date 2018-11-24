@@ -67,12 +67,15 @@ public class DayFragment extends Fragment implements View.OnClickListener {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_day, container, false);
-        this.selectedDate = ((GlobalDateVariables) this.getActivity().getApplication()).getSelectedDate();
         this.selectedMonth = ((GlobalDateVariables) this.getActivity().getApplication()).getSelectedMonth();
         this.selectedDay = ((GlobalDateVariables) this.getActivity().getApplication()).getSelectedDay();
         this.selectedYear = ((GlobalDateVariables) this.getActivity().getApplication()).getSelectedYear();
         this.selectedWeekday = ((GlobalDateVariables) this.getActivity().getApplication()).getSelectedWeekday();
-
+        this.currentDay = Integer.toString(this.selectedDay);
+        this.currentMonth = switchShortMonthToString(this.selectedMonth);
+        this.currentWeekday= switchDayofWeektoString(this.selectedWeekday);
+        this.currentYear = Integer.toString(this.selectedYear);
+        this.selectedDate= this.currentWeekday + ", " + this.currentMonth + " "+ this.currentDay;
         //Create the big grid view
         GridLayout gridlayout = v.findViewById(R.id.gridday);
         String[] times = getResources().getStringArray(R.array.timelist);

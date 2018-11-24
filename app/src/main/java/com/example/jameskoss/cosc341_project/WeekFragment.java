@@ -309,7 +309,7 @@ public class WeekFragment extends Fragment implements View.OnClickListener {
 
     public void setCurrent() {
 
-/*        Log.w("testyear", "" + this.selectedYear);
+        Log.w("testyear", "" + this.selectedYear);
         Log.w("testweekday", "" + this.selectedWeekday);
         Log.w("testday", "" + this.selectedDay);
         Log.w("testmonth", "" + this.selectedMonth);
@@ -319,7 +319,7 @@ public class WeekFragment extends Fragment implements View.OnClickListener {
         Log.w("testdaysinMonth", "" + this.daysInMonth);
         Log.w("testdaysinprevmonth", "" + this.daysInPrevMonth);
         Log.w("testsaturday", "" + this.saturday);
-        Log.w("testcurrentWeek", "" + this.currentWeek);*/
+        Log.w("testcurrentWeek", "" + this.currentWeek);
 
         ((GlobalDateVariables) this.getActivity().getApplication()).setSelectedMonth(selectedYear);
         ((GlobalDateVariables) this.getActivity().getApplication()).setSelectedDay(selectedWeekday);
