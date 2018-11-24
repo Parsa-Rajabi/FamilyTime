@@ -152,7 +152,9 @@ public class CreateEvent extends AppCompatActivity implements RecurringDialog.Re
                 "1543095759692-e4,Work,11/26/2018 09:00 AM,11/26/2018 05:00 PM,1543095759692,1,4,Downtown,#ff6600,rFTls3RIjMEOue603GBj\n" +
                 "1543095825532,Pickleball ,11/27/2018 07:00 PM,11/27/2018 09:00 PM,-1,0,0,YMCA,#33cc33,rFTls3RIjMEOue603GBj\n";
         String [] suzieEvents = suzieFileContents.split("\n");
+        sendToast(suzieEvents.length + "");
         String [] dadEvents = dadFileContents.split("\n");
+        sendToast(dadEvents.length + "");
         String suzieFileName = "suzie.txt";
         String dadFileName = "dad.txt";
 
@@ -164,7 +166,7 @@ public class CreateEvent extends AppCompatActivity implements RecurringDialog.Re
         FileOutputStream outputStream;
 
         for ( int i = 0; i < array.length; i++ ) {
-            String contents = array[i];
+            String contents = array[i] + "\n";
             try {
                 outputStream = openFileOutput(filename, Context.MODE_APPEND);
                 outputStream.write(contents.getBytes());
