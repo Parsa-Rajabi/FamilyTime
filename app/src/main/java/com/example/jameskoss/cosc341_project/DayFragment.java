@@ -124,13 +124,18 @@ public class DayFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onResume() {
         GridLayout gridlayout = getActivity().findViewById(R.id.gridday);
-
-        for(int i = 0; i < gridlayout.getChildCount(); i++){
-            View v = gridlayout.getChildAt(i);
+        
+        int numChilds = gridlayout.getChildCount();
+        boolean doBreak = false;
+        int childIdx = 0;
+        while (!doBreak) {
+            View v = gridlayout.getChildAt(childIdx);
             if(v instanceof Button){
-                gridlayout.removeViewAt(i);
+                gridlayout.removeView(v);
+            } else {
+                childIdx++;
             }
-
+            if (childIdx == numChilds) doBreak = true;
         }
 
         this.state = readState();
