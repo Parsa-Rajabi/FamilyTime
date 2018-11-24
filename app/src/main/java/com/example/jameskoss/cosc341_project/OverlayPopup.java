@@ -53,7 +53,6 @@ public class OverlayPopup extends AppCompatActivity {
                     state.put(key, false);
                 }
             }
-            colourKey++;
             LinearLayout subll = new LinearLayout(this);
             subll.setOrientation(LinearLayout.HORIZONTAL);
             ll.addView(subll);
@@ -74,6 +73,7 @@ public class OverlayPopup extends AppCompatActivity {
             tv.setText(key);
             tv.setPadding(20, 20, 20, 20);
             subll.addView(tv);
+            colourKey++;
         }
         super.onCreate(savedInstanceState);
     }
