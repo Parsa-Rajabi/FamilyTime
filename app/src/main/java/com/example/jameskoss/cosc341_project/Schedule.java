@@ -62,11 +62,45 @@ public class Schedule {
                 Log.w("createFromFile","Read Line: "+line);
                 String[] eventData = line.split(",");
                 try {
+                    boolean overruled = false;
+                    Date skeet1 = null;
+                    Date skeet2 = null;
+                    if (eventData[0].substring(eventData[0].length()-3,eventData[0].length()-1).equals("-e")) {
+                        //this is a recurring event. Here we go.
+                        overruled = true;
+                        int recursionLevel = Integer.parseInt(eventData[5]);
+                        int modifier = 0;
+                        int mod2 = 1;
+                        int eventOccurence = Integer.parseInt(eventData[0].substring(eventData[0].length()-1));
+                        Calendar cs = Calendar.getInstance();
+                        Calendar ce = Calendar.getInstance();
+                        cs.setTime(new SimpleDateFormat("MM/dd/yyy hh:mm a").parse(eventData[2]));
+                        ce.setTime(new SimpleDateFormat("MM/dd/yyy hh:mm a").parse(eventData[3]));
+                        switch(recursionLevel) {
+                            case 0: //daily
+                                modifier = Calendar.DATE;
+                                break;
+                            case 1: //weekly
+                                modifier = Calendar.DATE;
+                                mod2 = 7;
+                                break;
+                            case 2: //monthly
+                                modifier = Calendar.MONTH;
+                                break;
+                            case 3: //annually
+                                modifier = Calendar.YEAR;
+                                break;
+                        }
+                        cs.add(modifier,eventOccurence*mod2);
+                        ce.add(modifier,eventOccurence*mod2);
+                        skeet1 = cs.getTime();
+                        skeet2 = ce.getTime();
+                    }
                     Event e = new Event(
                             eventData[0],
                             eventData[1],
-                            new SimpleDateFormat("MM/dd/yyy hh:mm a").parse(eventData[2]),
-                            new SimpleDateFormat("MM/dd/yyy hh:mm a").parse(eventData[3]),
+                            (overruled?skeet1:new SimpleDateFormat("MM/dd/yyy hh:mm a").parse(eventData[2])),
+                            (overruled?skeet2:new SimpleDateFormat("MM/dd/yyy hh:mm a").parse(eventData[3])),
                             eventData[4],
                             Integer.parseInt(eventData[5]),
                             Integer.parseInt(eventData[6]),
@@ -135,9 +169,6 @@ public class Schedule {
                 GradientDrawable gd = (GradientDrawable)btn.getBackground();
                 gd.setColor(Color.parseColor(((this.doOverride)?this.superColour:currentEvent.getColour())));
                 gd.setAlpha(180);
-                gd.setSize(100,10);
-                GridLayout.LayoutParams param = new GridLayout.LayoutParams();
-                param.setGravity(Gravity.FILL);
                 int startIdx = 0;
                 int endIdx = 47;
                 if (cd.get(Calendar.DAY_OF_YEAR) == cs.get(Calendar.DAY_OF_YEAR) && cd.get(Calendar.YEAR) == cs.get(Calendar.YEAR)) {
@@ -153,6 +184,8 @@ public class Schedule {
                 int newHeight = sampleHeight*len - pixels*2 + len/2;
                 if (newHeight < 0) newHeight = 0;
                 btn.setHeight(newHeight);
+                GridLayout.LayoutParams param = new GridLayout.LayoutParams();
+                param.setGravity(Gravity.FILL);
                 param.setMargins(pixels,pixels,pixels,pixels);
                 param.columnSpec = GridLayout.spec(gridLayoutColIdx,1,1f);
                 param.rowSpec = GridLayout.spec(startIdx+gridLayoutRowOffset,len);

@@ -124,7 +124,7 @@ public class DayFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onResume() {
         GridLayout gridlayout = getActivity().findViewById(R.id.gridday);
-        
+
         int numChilds = gridlayout.getChildCount();
         boolean doBreak = false;
         int childIdx = 0;
