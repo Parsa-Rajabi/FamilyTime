@@ -30,6 +30,7 @@ import java.util.Date;
 
 public class Schedule {
     private ArrayList<Event> events;
+    private String username;
     private String superColour;
     private boolean doOverride = false;
     private Schedule() {
@@ -37,6 +38,7 @@ public class Schedule {
     }
     Schedule(String filename, Context ac, int colourOverride) {
         this();
+        this.username = filename.substring(0,filename.length()-4);
         if (colourOverride < 0) {
             this.doOverride = false;
         } else {
@@ -143,30 +145,32 @@ public class Schedule {
                 btn.setEllipsize(TextUtils.TruncateAt.END);
                 btn.setText(c.getResources().getString(R.string.event_title_format,currentEvent.getTitle(),(currentEvent.getLocation().equals("rFTls3RIjMEOue603GBj")?"":"\n"+currentEvent.getLocation())));
                 btn.setBackgroundResource(R.drawable.eventblob);
-                btn.setOnClickListener(new View.OnClickListener() {
-                    public void onClick(View v) {
-                        // Code here executes on main thread after user presses button
-                        Intent i = new Intent(context, CreateEvent.class);
-                        Bundle b = new Bundle();
-                        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
-                        String selectedDay = "";
-                        if (((GlobalDateVariables) applic).getSelectedDay() < 10) {
-                            selectedDay = "0" + ((GlobalDateVariables) applic).getSelectedDay();
+                if (this.username.equals("Mothership")) {
+                    btn.setOnClickListener(new View.OnClickListener() {
+                        public void onClick(View v) {
+                            // Code here executes on main thread after user presses button
+                            Intent i = new Intent(context, CreateEvent.class);
+                            Bundle b = new Bundle();
+                            SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+                            String selectedDay = "";
+                            if (((GlobalDateVariables) applic).getSelectedDay() < 10) {
+                                selectedDay = "0" + ((GlobalDateVariables) applic).getSelectedDay();
+                            }
+                            String strDate = ((GlobalDateVariables) applic).getSelectedMonth() + "/" + selectedDay + "/" + ((GlobalDateVariables) applic).getSelectedYear();
+                            Date todayDate = new Date();
+
+                            String dateToPass = sdf.format(todayDate);
+
+                            String timestamp = currentEvent.getId();
+                            b.putString("date", dateToPass);
+                            b.putBoolean("present", false);
+                            b.putString("timestamp", timestamp);
+                            b.putString("username", "Mothership");
+                            i.putExtras(b);
+                            context.startActivity(i);       //RACHELLE CHANGED THIS LINE
                         }
-                        String strDate = ((GlobalDateVariables) applic).getSelectedMonth() + "/" + selectedDay + "/" + ((GlobalDateVariables) applic).getSelectedYear();
-                        Date todayDate = new Date();
-
-                        String dateToPass = sdf.format(todayDate);
-
-                        String timestamp = currentEvent.getId();
-                        b.putString("date", dateToPass);
-                        b.putBoolean("present", false);
-                        b.putString("timestamp",timestamp);
-                        b.putString("username", "Mothership");
-                        i.putExtras(b);
-                        context.startActivity(i);       //RACHELLE CHANGED THIS LINE
-                    }
-                });
+                    });
+                }
                 GradientDrawable gd = (GradientDrawable)btn.getBackground();
                 gd.setColor(Color.parseColor(((this.doOverride)?this.superColour:currentEvent.getColour())));
                 gd.setAlpha(180);
