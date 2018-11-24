@@ -77,17 +77,17 @@ public class Schedule {
                         cs.setTime(new SimpleDateFormat("MM/dd/yyy hh:mm a").parse(eventData[2]));
                         ce.setTime(new SimpleDateFormat("MM/dd/yyy hh:mm a").parse(eventData[3]));
                         switch(recursionLevel) {
-                            case 0: //daily
+                            case 1: //daily
                                 modifier = Calendar.DATE;
                                 break;
-                            case 1: //weekly
+                            case 2: //weekly
                                 modifier = Calendar.DATE;
                                 mod2 = 7;
                                 break;
-                            case 2: //monthly
+                            case 3: //monthly
                                 modifier = Calendar.MONTH;
                                 break;
-                            case 3: //annually
+                            case 4: //annually
                                 modifier = Calendar.YEAR;
                                 break;
                         }
