@@ -102,5 +102,10 @@
     </string-array>
 
     <string name="popupNoFileError">Sorry, it looks like no\nschedules exist on your device!</string>
+    <string-array name="eventcolorsskeetskeet">
+        <item>#8800ff</item>
+        <item>#0088ff</item>
+        <item>#ff8800</item>
+    </string-array>
 
 </resources>

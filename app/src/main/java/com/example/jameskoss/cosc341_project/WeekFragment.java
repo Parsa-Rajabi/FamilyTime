@@ -15,10 +15,17 @@ import android.widget.GridLayout;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.ObjectInputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Spliterator;
 
 
 public class WeekFragment extends Fragment implements View.OnClickListener {
@@ -30,6 +37,7 @@ public class WeekFragment extends Fragment implements View.OnClickListener {
 
     TextView weekViewWeekText;
 
+    HashMap<String, Boolean> state;
     int nextMonthInt;
     int prevMonthInt;
     int daysInMonth;
@@ -99,6 +107,7 @@ public class WeekFragment extends Fragment implements View.OnClickListener {
         this.sunday = ((GlobalDateVariables) this.getActivity().getApplication()).getSunday();
         this.saturday = ((GlobalDateVariables) this.getActivity().getApplication()).getSaturday();
         this.currentWeek = ((GlobalDateVariables) this.getActivity().getApplication()).getCurrentWeek();
+        this.state = readState();
 
         //Create the big grid view
         GridLayout gridlayout = v.findViewById(R.id.gridweektime);
@@ -209,7 +218,6 @@ public class WeekFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onResume() {
-
         GridLayout gridlayout = getActivity().findViewById(R.id.gridweek);
 
         for(int i = 0; i < gridlayout.getChildCount(); i++){
@@ -220,12 +228,39 @@ public class WeekFragment extends Fragment implements View.OnClickListener {
 
         }
 
-        Schedule s = new Schedule("Mothership.txt", this.getActivity().getApplicationContext()); //TODO PASS IN USER SCHEDULE
-        // s.createFromFile("data.txt"); // pass in the user schedule file, or put this file string in the constructor as its only argument
-        Calendar c = Calendar.getInstance();
-        c.set(this.selectedYear,this.selectedMonth-1,this.sunday,0,0,0);
-        s.printWeek(c.getTime(), gridlayout, getContext(), this.getActivity().getApplication());
-        //TODO see if these three lines of code were all that was needed??
+        this.state = readState();
+        Log.e("WeekFragment.onResume","state: "+this.state.toString());
+
+        File[] files = getScheduleFiles();
+        Log.e("WeekFragment.onResume","Files found: "+files.length);
+        int i = 0;
+        int numDisplayed = 0;
+        for (File f: files) {
+            String key = f.getName().substring(0,f.getName().length()-4);
+            if (this.state.containsKey(key)) {
+                if (this.state.get(key)) numDisplayed++;
+            }
+        }
+        for (File f: files) {
+            String key = f.getName().substring(0,f.getName().length()-4);
+            Log.e("WeekFragment.onResume","File found: "+f+"; Cut to: "+key);
+            if (this.state == null) this.state = new HashMap<String, Boolean>();
+            if (!this.state.containsKey(key)) {
+                if (key.equals("Mothership")) {
+                    this.state.put(key,true);
+                } else {
+                    this.state.put(key,false);
+                }
+            }
+            if (this.state.get(key)) {
+                Schedule s = new Schedule(f.getName(), this.getActivity().getApplicationContext(), (numDisplayed>1?i:-1));
+                // s.createFromFile("data.txt"); // pass in the user schedule file, or put this file string in the constructor as its only argument
+                Calendar c = Calendar.getInstance();
+                c.set(this.selectedYear,this.selectedMonth-1,this.sunday,0,0,0);
+                s.printWeek(c.getTime(), gridlayout, getContext(), this.getActivity().getApplication());
+            }
+            i++;
+        }
 
         super.onResume();
     }
@@ -500,4 +535,31 @@ public class WeekFragment extends Fragment implements View.OnClickListener {
         return null;
     }
 
+    public HashMap<String, Boolean> readState() {
+        File f = new File(getActivity().getApplication().getFilesDir(), "statedata");
+        Log.e("WeekFragment.readState","File exists: "+f.exists());
+        if (f.exists()) {
+            try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(f))) {
+                Log.e("WeekFragment.readState","Hashmap Found!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                return (HashMap<String, Boolean>)ois.readObject();
+            } catch (Exception e) {
+                return new HashMap<>();
+            }
+        } else {
+            return new HashMap<>();
+        }
+    }
+
+    private File[] getScheduleFiles() {
+        File fileDir = getActivity().getApplication().getFilesDir();
+        File[] listOfFiles = fileDir.listFiles();
+        ArrayList<File> al = new ArrayList<>();
+        for (File f: listOfFiles) {
+            if (f.getName().endsWith(".txt")) {
+                al.add(f);
+            }
+        }
+        File[] files = new File[al.size()];
+        return al.toArray(files);
+    }
 }

@@ -30,11 +30,20 @@ import java.util.Date;
 
 public class Schedule {
     private ArrayList<Event> events;
+    private String superColour;
+    private boolean doOverride = false;
     private Schedule() {
         events = new ArrayList<Event>();
     }
-    Schedule(String filename, Context ac) {
+    Schedule(String filename, Context ac, int colourOverride) {
         this();
+        if (colourOverride < 0) {
+            this.doOverride = false;
+        } else {
+            this.doOverride = true;
+            String[] eventColours = ac.getResources().getStringArray(R.array.eventcolorsskeetskeet);
+            this.superColour = eventColours[colourOverride%eventColours.length];
+        }
         this.createFromFile(filename, ac);
     }
     public ArrayList<Event> getEvents() {
@@ -80,9 +89,7 @@ public class Schedule {
     void printDay(Date day, GridLayout gridlayout, int gridLayoutColIdx, int gridLayoutRowOffset, Context c, Application a) {
         final Context context = c;
         final Application applic = a;
-        Log.v("printDay","printDay reached. Day:"+day.toString());
         final float scale = c.getResources().getDisplayMetrics().density;
-        Log.e("printDay","Events.size: "+events.size());
         for (int i = 0; i < events.size(); i++) {
             final Event currentEvent = events.get(i);
             Date start = currentEvent.getStartTime();
@@ -93,9 +100,8 @@ public class Schedule {
             cs.setTime(start);
             ce.setTime(end);
             cd.setTime(day);
-            Log.e("printDay","Comparing values: {\nCD.D: "+cd.get(Calendar.DAY_OF_YEAR)+"; CD.Y: "+cd.get(Calendar.YEAR)+";\nCS.D: "+cs.get(Calendar.DAY_OF_YEAR)+"; CS.Y: "+cs.get(Calendar.YEAR)+";\nCE.D: "+ce.get(Calendar.DAY_OF_YEAR)+"; CE.Y: "+ce.get(Calendar.YEAR)+";\n}");
             if (!(cd.get(Calendar.DAY_OF_YEAR) < cs.get(Calendar.DAY_OF_YEAR) || cd.get(Calendar.YEAR) < cs.get(Calendar.YEAR) || cd.get(Calendar.DAY_OF_YEAR) > ce.get(Calendar.DAY_OF_YEAR) || cd.get(Calendar.YEAR) > ce.get(Calendar.YEAR))) {
-                Log.e("printDay","Event found today: Start("+start.toString()+") End("+end.toString()+")");
+                Log.w("printDay","Event found today: Start("+start.toString()+") End("+end.toString()+")");
                 //this event is today
                 Button btn = new Button(c);
                 btn.setId(View.generateViewId());
@@ -127,7 +133,7 @@ public class Schedule {
                     }
                 });
                 GradientDrawable gd = (GradientDrawable)btn.getBackground();
-                gd.setColor(Color.parseColor(currentEvent.getColour()));
+                gd.setColor(Color.parseColor(((this.doOverride)?this.superColour:currentEvent.getColour())));
                 gd.setAlpha(180);
                 gd.setSize(100,10);
                 GridLayout.LayoutParams param = new GridLayout.LayoutParams();
@@ -143,25 +149,21 @@ public class Schedule {
                 int len = endIdx - startIdx;
                 int pixels = (int) (5 * scale + 0.5f);
                 int sampleHeight = gridlayout.getChildAt(20).getMeasuredHeight(); //grab a sample textview for the height;
-                Log.e("printDay", "sampleHeight: "+sampleHeight);
                 if (sampleHeight <= 0) sampleHeight = 67;
                 int newHeight = sampleHeight*len - pixels*2 + len/2;
-                Log.e("printDay", "newHeight: "+newHeight);
                 if (newHeight < 0) newHeight = 0;
-                Log.e("printDay", "newHeightFinal: "+newHeight);
                 btn.setHeight(newHeight);
                 param.setMargins(pixels,pixels,pixels,pixels);
                 param.columnSpec = GridLayout.spec(gridLayoutColIdx,1,1f);
                 param.rowSpec = GridLayout.spec(startIdx+gridLayoutRowOffset,len);
-                Log.e("printDay","Row: "+(startIdx+gridLayoutRowOffset)+"; Col: "+gridLayoutColIdx);
                 gridlayout.addView(btn, param);
             }
         }
     }
 
     void printWeek(Date sunday, GridLayout gridlayout, Context c, Application a) {
-        Log.v("printWeek","printWeek reached. Sunday:"+sunday.toString());
-        Log.e("printWeek","Events.size: "+events.size());
+        Log.w("printWeek","printWeek reached. Sunday:"+sunday.toString());
+        Log.w("printWeek","Events.size: "+events.size());
         for (int i = 0; i < 7; i++) {
             Calendar cal = Calendar.getInstance();
             cal.setTime(sunday);
