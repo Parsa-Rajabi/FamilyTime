@@ -73,6 +73,7 @@ public class OverlayPopup extends AppCompatActivity {
             tv.setText(key);
             tv.setPadding(20, 20, 20, 20);
             subll.addView(tv);
+            colourKey++;
         }
         super.onCreate(savedInstanceState);
     }

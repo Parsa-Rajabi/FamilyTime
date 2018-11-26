@@ -98,6 +98,7 @@ public class MainViews extends FragmentActivity {
         }
 
         if (v == findViewById(R.id.weekButton)) {
+
             ((GlobalDateVariables) this.getApplication()).switchNextMonthInt(((GlobalDateVariables) this.getApplication()).getSelectedMonth());
             ((GlobalDateVariables) this.getApplication()).switchPrevMonthInt(((GlobalDateVariables) this.getApplication()).getSelectedMonth());
             ((GlobalDateVariables) this.getApplication()).switchDaysInMonth(((GlobalDateVariables) this.getApplication()).getSelectedMonth());

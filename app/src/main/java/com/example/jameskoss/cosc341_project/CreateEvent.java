@@ -88,6 +88,8 @@ public class CreateEvent extends AppCompatActivity implements RecurringDialog.Re
 
         setInitialDates();
 
+        makeSureFilesExist();       //creates sample files for other family members (for prototyping purposes)
+
         //allows user to change dates
         onAllDayCheck();
         onStartDateClick();
@@ -118,6 +120,79 @@ public class CreateEvent extends AppCompatActivity implements RecurringDialog.Re
         onCancelButtonClick();
         onDeleteEventButtonClick();
     }
+
+    /**
+     * methods that are specific for prototyping
+     */
+    private void makeSureFilesExist() {
+
+        String suzieFileContents = "3543093682534-e0,Piano Lessons,11/26/2018 04:00 PM,11/26/2018 06:00 PM,1543093682534,2,3,Music Centre,#cc0099,rFTls3RIjMEOue603GBj\n" +
+                "1543093682534-e1,Piano Lessons,11/26/2018 04:00 PM,11/26/2018 06:00 PM,1543093682534,2,3,Music Centre,#cc0099,rFTls3RIjMEOue603GBj\n" +
+                "1543093682534-e2,Piano Lessons,11/26/2018 04:00 PM,11/26/2018 06:00 PM,1543093682534,2,3,Music Centre,#cc0099,rFTls3RIjMEOue603GBj\n" +
+                "1543093682534-e3,Piano Lessons,11/26/2018 04:00 PM,11/26/2018 06:00 PM,1543093682534,2,3,Music Centre,#cc0099,rFTls3RIjMEOue603GBj\n" +
+                "1543093806122,Dentist Appt,11/27/2018 08:00 AM,11/27/2018 09:30 AM,-1,0,0,rFTls3RIjMEOue603GBj,#ffff00,rFTls3RIjMEOue603GBj\n" +
+                "1543093910658-e0,School,11/26/2018 08:30 AM,11/26/2018 03:30 PM,1543093910658,1,4,rFTls3RIjMEOue603GBj,#85e0e0,rFTls3RIjMEOue603GBj\n" +
+                "1543093910658-e1,School,11/26/2018 08:30 AM,11/26/2018 03:30 PM,1543093910658,1,4,rFTls3RIjMEOue603GBj,#85e0e0,rFTls3RIjMEOue603GBj\n" +
+                "1543093910658-e2,School,11/26/2018 08:30 AM,11/26/2018 03:30 PM,1543093910658,1,4,rFTls3RIjMEOue603GBj,#85e0e0,rFTls3RIjMEOue603GBj\n" +
+                "1543093910658-e3,School,11/26/2018 08:30 AM,11/26/2018 03:30 PM,1543093910658,1,4,rFTls3RIjMEOue603GBj,#85e0e0,rFTls3RIjMEOue603GBj\n" +
+                "1543093910658-e4,School,11/26/2018 08:30 AM,11/26/2018 03:30 PM,1543093910658,1,4,rFTls3RIjMEOue603GBj,#85e0e0,rFTls3RIjMEOue603GBj\n" +
+                "1543094015726,Dinner with Grandma,11/29/2018 06:00 PM,11/29/2018 08:00 PM,-1,0,0,rFTls3RIjMEOue603GBj,#ff5050,rFTls3RIjMEOue603GBj\n";
+
+
+        String dadFileContents = "2543094015726,Dinner with Grandma,11/29/2018 06:00 PM,11/29/2018 08:00 PM,-1,0,0,rFTls3RIjMEOue603GBj,#ff5050,rFTls3RIjMEOue603GBj\n" +
+                "1543095645948-e0,Lane Swim,11/26/2018 06:00 AM,11/26/2018 08:00 AM,1543095645948,1,4,YMCA,#3333ff,rFTls3RIjMEOue603GBj\n" +
+                "1543095645948-e1,Lane Swim,11/26/2018 06:00 AM,11/26/2018 08:00 AM,1543095645948,1,4,YMCA,#3333ff,rFTls3RIjMEOue603GBj\n" +
+                "1543095645948-e2,Lane Swim,11/26/2018 06:00 AM,11/26/2018 08:00 AM,1543095645948,1,4,YMCA,#3333ff,rFTls3RIjMEOue603GBj\n" +
+                "1543095645948-e3,Lane Swim,11/26/2018 06:00 AM,11/26/2018 08:00 AM,1543095645948,1,4,YMCA,#3333ff,rFTls3RIjMEOue603GBj\n" +
+                "1543095645948-e4,Lane Swim,11/26/2018 06:00 AM,11/26/2018 08:00 AM,1543095645948,1,4,YMCA,#3333ff,rFTls3RIjMEOue603GBj\n" +
+                "1543095759692-e0,Work,11/26/2018 09:00 AM,11/26/2018 05:00 PM,1543095759692,1,4,Downtown,#ff6600,rFTls3RIjMEOue603GBj\n" +
+                "1543095759692-e1,Work,11/26/2018 09:00 AM,11/26/2018 05:00 PM,1543095759692,1,4,Downtown,#ff6600,rFTls3RIjMEOue603GBj\n" +
+                "1543095759692-e2,Work,11/26/2018 09:00 AM,11/26/2018 05:00 PM,1543095759692,1,4,Downtown,#ff6600,rFTls3RIjMEOue603GBj\n" +
+                "1543095759692-e3,Work,11/26/2018 09:00 AM,11/26/2018 05:00 PM,1543095759692,1,4,Downtown,#ff6600,rFTls3RIjMEOue603GBj\n" +
+                "1543095759692-e4,Work,11/26/2018 09:00 AM,11/26/2018 05:00 PM,1543095759692,1,4,Downtown,#ff6600,rFTls3RIjMEOue603GBj\n" +
+                "1543095825532,Pickleball ,11/27/2018 07:00 PM,11/27/2018 09:00 PM,-1,0,0,YMCA,#33cc33,rFTls3RIjMEOue603GBj\n";
+        String [] suzieEvents = suzieFileContents.split("\n");
+        String [] dadEvents = dadFileContents.split("\n");
+        String suzieFileName = "suzie.txt";
+        String dadFileName = "dad.txt";
+
+        writeArrayToFile(suzieFileName, suzieEvents);
+        writeArrayToFile(dadFileName,dadEvents);
+    }
+
+    private void writeArrayToFile (String filename, String [] array) {
+        FileOutputStream outputStream;
+
+        for ( int i = 0; i < array.length; i++ ) {
+            String contents = array[i] + "\n";
+            try {
+                outputStream = openFileOutput(filename, Context.MODE_APPEND);
+                outputStream.write(contents.getBytes());
+                outputStream.close();
+            }
+            catch (IOException e) {
+                sendToast("System is down for maintenance");
+            }
+        }
+    }
+
+//    private void writeToFile(ArrayList<Event> eventList) {
+//        String filename = username + ".txt";
+//        FileOutputStream outputStream;
+//
+//        for ( int i = 0; i < eventList.size(); i++ ) {
+//            String contents = eventContentsToWriteToFile(eventList.get(i));
+//            try {
+//                outputStream = openFileOutput(filename, Context.MODE_APPEND);
+//                outputStream.write(contents.getBytes());
+//                outputStream.close();
+//            }
+//            catch (Exception e ) {
+//                e.printStackTrace();
+//            }
+//        }
+//
+//    }
 
     /**
      * modifying event
@@ -327,12 +402,8 @@ public class CreateEvent extends AppCompatActivity implements RecurringDialog.Re
      */
     private void onTimeInputChange () {
         //TODO: is there where it all goes wrong (declare views in methods)
-//        final TextView startDate = findViewById(R.id.event_startDate);
-//        final TextView endDate = findViewById(R.id.event_endDate);
         EditText startTime = findViewById(R.id.event_startTimeInput);
         EditText endTime = findViewById(R.id.event_endTimeInput);
-//        final Spinner startSpinner = findViewById(R.id.event_startSpinner);
-//        final Spinner endSpinner = findViewById(R.id.event_endSpinner);
 
         startTime.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -931,10 +1002,6 @@ public class CreateEvent extends AppCompatActivity implements RecurringDialog.Re
             sendToast("Event cannot start and end at same time");
         }
 
-        else if ( !startDate.getText().toString().equals(endDate.getText().toString()) ) {
-            sendToast("Events cannot span multiple days, please use Recurring Events feature.");
-        }
-
         else {
             valid = true;
         }
@@ -1107,47 +1174,8 @@ public class CreateEvent extends AppCompatActivity implements RecurringDialog.Re
     }
 
     /*
-    James's week date conversion. Passes in a sunday. I need to get sunday of following week and saturday of
-    following week
+    converts an array to an array list
      */
-    private String nextWeekDate (int month, int sunday, int year) throws ParseException {
-        SimpleDateFormat sdf = new SimpleDateFormat("MMM dd");
-        SimpleDateFormat sdf2 = new SimpleDateFormat("MM-dd-yyyy");
-
-        String strDate = month + "-" + sunday + "-" + year;
-        Date currentDate = sdf2.parse(strDate);
-
-        Calendar c = Calendar.getInstance();
-        c.setTime(currentDate);
-
-        int nextSundayDay = c.get(Calendar.DATE);
-        int nextSundayMonth = c.get(Calendar.MONTH);
-        int nextSundayYear = c.get(Calendar.YEAR);
-
-        c.set(nextSundayYear, nextSundayMonth, nextSundayDay);
-        c.add(Calendar.DAY_OF_MONTH, 7);
-
-        Date nextSundayDate = c.getTime();
-
-        c.setTime(nextSundayDate);
-
-        int nextSaturdayDay = c.get(Calendar.DATE);
-        int nextSaturdayMonth = c.get(Calendar.MONTH);
-        int nextSaturdayYear = c.get(Calendar.YEAR);
-
-        c.set(nextSaturdayYear, nextSaturdayMonth, nextSaturdayDay);
-        c.add(Calendar.DAY_OF_MONTH, 6);
-
-        Date nextSaturdayDate = c.getTime();
-
-        String nextSaturdayStr = sdf.format(nextSaturdayDate);
-        String nextSundayStr = sdf.format(nextSundayDate);
-
-        String label = nextSundayStr + " - " + nextSaturdayStr;
-        return label;
-
-    }
-
     private ArrayList<String> arrayToArrayList(String [] array) {
         ArrayList<String> arrList = new ArrayList<>();
 
@@ -1193,6 +1221,10 @@ public class CreateEvent extends AppCompatActivity implements RecurringDialog.Re
         return eventList;
     }
 
+    /*
+    this method will simulate the action of the cancel button when the user clicks on the back button
+    on the action bar
+     */
     @Override
     public void onBackPressed() {
         findViewById(R.id.event_cancelBtn).performClick();
