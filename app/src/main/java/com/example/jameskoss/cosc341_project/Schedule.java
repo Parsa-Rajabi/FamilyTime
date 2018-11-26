@@ -200,7 +200,7 @@ public class Schedule {
                 int sampleHeight = gridlayout.getChildAt(20).getMeasuredHeight(); //grab a sample textview for the height;
                 if (sampleHeight <= 0) sampleHeight = 67;
                 //TODO: if this formula is fixed everything should work nicely :')
-                int newHeight = sampleHeight*len - pixels*2 + len/2;
+                int newHeight = sampleHeight*len - pixels*2 + (int)(len*1.5);
                 if (newHeight < 0) newHeight = 0;
                 btn.setHeight(newHeight);
                 GridLayout.LayoutParams param = new GridLayout.LayoutParams();
@@ -231,7 +231,7 @@ public class Schedule {
         c.setTime(d);
         int hour = c.get(Calendar.HOUR_OF_DAY);
         int minute = c.get(Calendar.MINUTE);
-        return (hour*2) + (minute/30);
+        return (hour*2) + (int)Math.round(minute/30.0);
         //NOTE: Returns an int from 0 to 47 inclusive based on passed date
     }
 }
