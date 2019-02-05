@@ -62,7 +62,7 @@ public class CreateEvent extends AppCompatActivity implements RecurringDialog.Re
         Intent calendarViewIntent = getIntent();
         Bundle calendarViewBundle = calendarViewIntent.getExtras();
         String date = calendarViewBundle.getString("date");
-        present = calendarViewBundle.getBoolean("present");
+        this.present = calendarViewBundle.getBoolean("present");
         eventTimestamp = calendarViewBundle.getString("timestamp");        //if we are gonna edit an event, will equal -1 if we are creating new event
         username = calendarViewBundle.getString("username");     //TESTING
 
@@ -80,6 +80,12 @@ public class CreateEvent extends AppCompatActivity implements RecurringDialog.Re
         this.colour = "#ffff00";
         Button colourBtn = findViewById(R.id.event_colourButton);
         colourBtn.setBackgroundColor(Color.parseColor("#ffff00"));
+
+        Button confirmBtn = findViewById(R.id.event_confirmBtn);
+        confirmBtn.setBackgroundColor(Color.parseColor("#02e824"));
+
+        Button cancelBtn = findViewById(R.id.event_cancelBtn);
+        cancelBtn.setBackgroundColor(Color.parseColor("#eb2300"));
 
         // TODO: add title to app
         getSupportActionBar().setTitle("FamilyTime - Create Event");
@@ -175,24 +181,6 @@ public class CreateEvent extends AppCompatActivity implements RecurringDialog.Re
             }
         }
     }
-
-//    private void writeToFile(ArrayList<Event> eventList) {
-//        String filename = username + ".txt";
-//        FileOutputStream outputStream;
-//
-//        for ( int i = 0; i < eventList.size(); i++ ) {
-//            String contents = eventContentsToWriteToFile(eventList.get(i));
-//            try {
-//                outputStream = openFileOutput(filename, Context.MODE_APPEND);
-//                outputStream.write(contents.getBytes());
-//                outputStream.close();
-//            }
-//            catch (Exception e ) {
-//                e.printStackTrace();
-//            }
-//        }
-//
-//    }
 
     /**
      * modifying event
@@ -732,7 +720,7 @@ public class CreateEvent extends AppCompatActivity implements RecurringDialog.Re
         Date startDate = date;
         Date endDate = date;
 
-                if (present) {
+        if (this.present) {
             //TODO: when done testing uncomment the next line
             String formattedDate = getCurrentTimeHHMM();
 //            String formattedDate = "6:01 AM";          //this is for TESTING

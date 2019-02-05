@@ -22,6 +22,7 @@ import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -131,13 +132,25 @@ public class Schedule {
             final Event currentEvent = events.get(i);
             Date start = currentEvent.getStartTime();
             Date end = currentEvent.getEndTime();
+
+//            DateFormat formatter = new SimpleDateFormat("")
+
             Calendar cs = Calendar.getInstance();
             Calendar ce = Calendar.getInstance();
             Calendar cd = Calendar.getInstance();
             cs.setTime(start);
             ce.setTime(end);
             cd.setTime(day);
-            if (!(cd.get(Calendar.DAY_OF_YEAR) < cs.get(Calendar.DAY_OF_YEAR) || cd.get(Calendar.YEAR) < cs.get(Calendar.YEAR) || cd.get(Calendar.DAY_OF_YEAR) > ce.get(Calendar.DAY_OF_YEAR) || cd.get(Calendar.YEAR) > ce.get(Calendar.YEAR))) {
+
+            //first proposition: present day is before start day
+            //second proposition: present year is before start year
+            //third proposition: present day is after end day
+            //fourth proposition: present year is after end year
+
+            if (!(cd.get(Calendar.DAY_OF_YEAR) < cs.get(Calendar.DAY_OF_YEAR)
+                    || cd.get(Calendar.YEAR) < cs.get(Calendar.YEAR)
+                    || cd.get(Calendar.DAY_OF_YEAR) > ce.get(Calendar.DAY_OF_YEAR)
+                    || cd.get(Calendar.YEAR) > ce.get(Calendar.YEAR))) {
                 Log.w("printDay","Event found today: Start("+start.toString()+") End("+end.toString()+")");
                 //this event is today
                 Button btn = new Button(c);
@@ -186,7 +199,8 @@ public class Schedule {
                 int pixels = (int) (5 * scale + 0.5f);
                 int sampleHeight = gridlayout.getChildAt(20).getMeasuredHeight(); //grab a sample textview for the height;
                 if (sampleHeight <= 0) sampleHeight = 67;
-                int newHeight = sampleHeight*len - pixels*2 + len/2;
+                //TODO: if this formula is fixed everything should work nicely :')
+                int newHeight = sampleHeight*len - pixels*2 + (int)(len*1.5);
                 if (newHeight < 0) newHeight = 0;
                 btn.setHeight(newHeight);
                 GridLayout.LayoutParams param = new GridLayout.LayoutParams();
@@ -217,7 +231,7 @@ public class Schedule {
         c.setTime(d);
         int hour = c.get(Calendar.HOUR_OF_DAY);
         int minute = c.get(Calendar.MINUTE);
-        return (hour*2) + (minute/30);
+        return (hour*2) + (int)Math.round(minute/30.0);
         //NOTE: Returns an int from 0 to 47 inclusive based on passed date
     }
 }

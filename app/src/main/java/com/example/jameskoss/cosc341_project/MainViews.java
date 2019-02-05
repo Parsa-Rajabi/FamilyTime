@@ -142,25 +142,27 @@ public class MainViews extends FragmentActivity {
         String selectedDay = "";
         if (((GlobalDateVariables) this.getApplication()).getSelectedDay() < 10) {
             selectedDay = "0" + ((GlobalDateVariables) this.getApplication()).getSelectedDay();
-            }
-        String strDate = ((GlobalDateVariables) this.getApplication()).getSelectedMonth() + "/" + selectedDay + "/" + ((GlobalDateVariables) this.getApplication()).getSelectedYear();
-    //            Date selectedDate=null;
-    //
-    //            try {
-    //                selectedDate = sdf.parse(strDate);
-    //
-    //            } catch (ParseException e) {
-    //                e.printStackTrace();
-    //            }
+        }
+        else {
+            selectedDay = ((GlobalDateVariables) this.getApplication()).getSelectedDay() + "";
+        }
+        String selectedMonth = "";
+        if (((GlobalDateVariables) this.getApplication()).getSelectedMonth() < 10 ) {
+            selectedMonth = "0" + ((GlobalDateVariables) this.getApplication()).getSelectedMonth();
+        }
+        else {
+            selectedMonth = ((GlobalDateVariables) this.getApplication()).getSelectedMonth() + "";
+        }
+        String strDate = (selectedMonth + "/" + selectedDay + "/" + ((GlobalDateVariables) this.getApplication()).getSelectedYear());
+
+
         Date todayDate = new Date();
 
         String dateToPass = sdf.format(todayDate);
 
-            b.putString("date", dateToPass);
-    //            Date today = new Date();
-    //            String strDate1 = sdf2.format(today);
-    //            today = sdf2.parse(strDate1);
-        boolean isDayToday = (strDate.equals(dateToPass));
+        b.putString("date", strDate);
+
+        boolean isDayToday = (strDate == dateToPass);
             b.putBoolean("present", isDayToday);
             b.putString("timestamp","-1");
             b.putString("username", "Mothership");
@@ -177,6 +179,10 @@ public class MainViews extends FragmentActivity {
     public void onResume() {
         View v = findViewById(R.id.FragmentPlacement);
         super.onResume();
+    }
+
+    private void sendToast(String message) {
+        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
     }
 }
 

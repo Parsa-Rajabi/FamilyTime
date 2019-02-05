@@ -84,7 +84,7 @@
             </GridLayout>
 
             <HorizontalScrollView
-                android:layout_width="314dp"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent">
 
                 <GridLayout
